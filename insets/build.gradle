@@ -48,7 +48,7 @@ dependencies {
 
 apply from: rootProject.file('android-tasks.gradle')
 
-version = '1.0.0'
+version = '1.0.1'
 
 publishing {
     publications {
