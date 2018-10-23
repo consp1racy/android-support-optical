@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'digital.wup.android-maven-publish'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+
+        consumerProguardFiles 'consumer-proguard-rules.pro'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+}
+
+/*
+ * Having platform-insets as implementation dependency would solve these issues:
+ * - Separate consumer proguard rules
+ * - Insets class included for consumers by default
+ * - platform-insets could be an Android library module and could reference classes from the SDK
+ *
+ * platform-insets will have to be included manually by consumers wishing to extend this library.
+ * All that for the simple fact that compileOnly dependencies don't get bundled into resulting APK.
+ */
+
+dependencies {
+    compileOnly project(':platform-insets')
+    testCompileOnly project(':platform-insets')
+
+    implementation "com.android.support:support-annotations:28.0.0"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+apply from: rootProject.file('android-tasks.gradle')
+
+version = '1.0.0'
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            artifact androidSourceJar
+        }
+    }
+}

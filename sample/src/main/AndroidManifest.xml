@@ -1,0 +1,40 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.xpece.androidx.optical.sample">
+
+    <uses-sdk tools:overrideLibrary="net.xpece.androidx.optical.cardview,net.xpece.androidx.optical.rootframelayout,net.xpece.androidx.optical.rootlinearlayout,net.xpece.androidx.optical.rootconstraintlayout,net.xpece.androidx.optical.rootcoordinatorlayout,net.xpece.androidx.optical.insets,net.xpece.android.optical.insets"/>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@android:drawable/ic_menu_crop"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".LinearLayoutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <!--<activity android:name=".RecyclerViewInsetsActivity">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity android:name=".RecyclerViewOffsetsActivity">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+    </application>
+</manifest>
