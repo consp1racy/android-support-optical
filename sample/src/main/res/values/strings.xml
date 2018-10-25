@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">Android Optical</string>
-    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in libero ornare, cursus neque a, imperdiet risus. Etiam dignissim massa egestas orci congue, vitae fringilla odio eleifend. Proin lacus augue, aliquet ac libero et, tempor sollicitudin sem. Ut commodo erat vitae gravida vulputate. In maximus convallis enim nec congue. Nulla hendrerit id quam at ornare. Vivamus gravida sem vel tellus porttitor volutpat. Morbi iaculis mauris erat, eu dignissim tortor porttitor sit amet. In lobortis mauris sit amet arcu blandit imperdiet. Sed neque ligula, semper ac nibh non, consectetur ultrices dolor. Nunc in felis eget elit tincidunt dignissim et in purus. Nulla tincidunt malesuada augue, sed blandit odio malesuada in. Aliquam leo nisl, facilisis a porttitor a, mollis non mi.</string>
+    <string name="app_name">Optical Layout</string>
+
+    <string name="label_fixed">Fixed</string>
+    <string name="label_wrong">Wrong</string>
+    <string name="label_unsupported">Unsupported</string>
+
+    <string name="title_fixed">Fixed</string>
+    <string name="title_wrong">Wrong (API 18+)</string>
+    <string name="title_unsupported">Unsupported (Below API 18)</string>
+
+    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id molestie felis. Vestibulum luctus vehicula luctus. Proin auctor bibendum felis vel elementum. Vestibulum tincidunt, nisi sed commodo scelerisque, tellus nisi ullamcorper turpis, eu rutrum dui nisi sit amet est. Praesent pretium hendrerit tortor ac iaculis. Maecenas blandit tristique vestibulum. Sed faucibus massa tellus, ac tincidunt mauris convallis at. Fusce finibus euismod tortor, vitae gravida urna vestibulum a. Curabitur placerat eu lorem non tristique. Aenean tincidunt dignissim tincidunt.</string>
 </resources>

@@ -10,8 +10,9 @@
     app:contentPadding="16dp">
 
     <TextView
+        android:text="@string/lipsum"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:maxLines="5"
-        android:text="@string/lipsum"/>
+        android:layout_height="wrap_content"/>
+
 </net.xpece.androidx.optical.InsetCardView>

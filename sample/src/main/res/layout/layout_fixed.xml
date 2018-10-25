@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.xpece.androidx.optical.RootLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:layoutMode="opticalBounds"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <include layout="@layout/layout_content" />
+</net.xpece.androidx.optical.RootLinearLayout>

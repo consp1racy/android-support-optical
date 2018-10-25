@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_unsupported"
+        android:icon="@drawable/ic_unsupported_24dp"
+        android:title="@string/label_unsupported"/>
+
+    <item
+        android:id="@+id/navigation_wrong"
+        android:icon="@drawable/ic_wrong_24dp"
+        android:title="@string/label_wrong"/>
+
+    <item
+        android:id="@+id/navigation_correct"
+        android:icon="@drawable/ic_correct_24dp"
+        android:title="@string/label_fixed"/>
+
+</menu>
