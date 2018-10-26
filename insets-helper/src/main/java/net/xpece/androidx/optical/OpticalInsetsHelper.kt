@@ -2,6 +2,7 @@ package net.xpece.androidx.optical
 
 import android.graphics.Insets
 import android.graphics.drawable.InsetDrawable
+import android.support.annotation.RequiresApi
 import android.view.View
 
 /**
@@ -9,6 +10,7 @@ import android.view.View
  *
  * This class is not needed on API 21 and above.
  */
+@RequiresApi(16)
 class OpticalInsetsHelper(private val view: View) {
 
     private var opticalInsets: Insets? = null

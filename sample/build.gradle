@@ -38,6 +38,9 @@ dependencies {
     implementation project(':root-linear-layout')
 
     implementation project(':insets')
+
+    implementation project(':insets-extensions')
+
     implementation project(':insets-helper')
     compileOnly project(':platform-insets')
 
