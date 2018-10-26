@@ -9,8 +9,6 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
 
-        consumerProguardFiles 'consumer-proguard-rules.pro'
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -22,18 +20,13 @@ android {
 
 }
 
-/*
- * Having platform-insets as implementation dependency would solve these issues:
- * - Separate consumer proguard rules
- * - Insets class included for consumers by default
- * - platform-insets could be an Android library module and could reference classes from the SDK
- *
- * platform-insets will have to be included manually by consumers wishing to extend this library.
- * All that for the simple fact that compileOnly dependencies don't get bundled into resulting APK.
- */
-
 dependencies {
-    compileOnly project(':platform-insets-private')
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation project(':insets')
+    implementation project(':insets-extensions')
+
+    compileOnly project(':platform-insets')
     testCompileOnly project(':platform-insets')
 
     implementation "com.android.support:support-annotations:28.0.0"
@@ -48,7 +41,7 @@ dependencies {
 
 apply from: rootProject.file('android-tasks.gradle')
 
-version = '1.0.1'
+version = '1.0.0'
 
 publishing {
     publications {

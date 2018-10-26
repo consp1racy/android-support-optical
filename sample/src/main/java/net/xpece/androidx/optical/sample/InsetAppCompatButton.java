@@ -9,6 +9,8 @@ import android.support.annotation.RestrictTo;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 
+import net.xpece.androidx.optical.OpticalInsetsHelper;
+
 public class InsetAppCompatButton extends AppCompatButton {
 
     private OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);

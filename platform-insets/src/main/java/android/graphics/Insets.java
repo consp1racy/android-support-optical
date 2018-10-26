@@ -16,10 +16,6 @@
 
 package android.graphics;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-
 /**
  * An Insets instance holds four integer offsets which describe changes to the four
  * edges of a Rectangle. By convention, positive values move edges towards the
@@ -29,65 +25,7 @@ import android.support.annotation.RestrictTo;
  */
 @SuppressWarnings("unused")
 public class Insets {
-    @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets NONE = placeholder();
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public final int left;
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public final int top;
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public final int right;
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public final int bottom;
-
-    private Insets(int left, int top, int right, int bottom) {
-        throw new UnsupportedOperationException();
-    }
-
-    @NonNull
-    private static Insets placeholder() {
-        throw new UnsupportedOperationException("Did you include Optical library proguard rules?");
-    }
-
-    // Factory methods
-
-    /**
-     * Return an Insets instance with the appropriate values.
-     *
-     * @param left   the left inset
-     * @param top    the top inset
-     * @param right  the right inset
-     * @param bottom the bottom inset
-     * @return Insets instance with the appropriate values
-     */
-    @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets of(int left, int top, int right, int bottom) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Return an Insets instance with the appropriate values.
-     *
-     * @param r the rectangle from which to take the values
-     * @return an Insets instance with the appropriate values
-     */
-    @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets of(@Nullable Rect r) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Two Insets instances are equal if they belong to the same class and their fields are
-     * pairwise equal.
-     *
-     * @param o the object to compare this instance with.
-     * @return true if this object is equal {@code o}
-     */
-    @Override
-    public boolean equals(@Nullable Object o) {
+    private Insets() {
         throw new UnsupportedOperationException();
     }
 }

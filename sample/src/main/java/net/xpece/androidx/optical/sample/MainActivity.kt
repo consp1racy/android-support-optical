@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_correct -> {
                     setTitle(R.string.title_fixed)
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, CorrectFragment())
+                        .replace(R.id.fragmentContainer, FixedFragment())
                         .commitNow()
                     return@OnNavigationItemSelectedListener true
                 }

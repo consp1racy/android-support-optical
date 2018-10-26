@@ -23,7 +23,10 @@ import java.lang.reflect.Method;
 @SuppressLint("PrivateApi")
 @SuppressWarnings("unused")
 public final class InsetsCompat {
+
+    @NonNull
     public static final Insets NONE;
+
     // Insets were on the dark greylist during Android Pie Developer Preview.
     // It looks they're on the light greylist in public release.
     private static boolean sSafe = !"P".equals(Build.VERSION.CODENAME);

@@ -9,6 +9,8 @@ import android.support.annotation.RestrictTo;
 import android.support.design.button.MaterialButton;
 import android.util.AttributeSet;
 
+import net.xpece.androidx.optical.OpticalInsetsHelper;
+
 public class InsetMaterialButton extends MaterialButton {
 
     private OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);

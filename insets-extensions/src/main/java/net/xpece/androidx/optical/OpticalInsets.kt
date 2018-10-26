@@ -1,6 +1,7 @@
 @file:JvmName("OpticalInsets")
+@file:Suppress("unused")
 
-package net.xpece.androidx.optical.sample
+package net.xpece.androidx.optical
 
 import android.annotation.SuppressLint
 import android.graphics.Insets
@@ -10,7 +11,6 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.view.View
-import net.xpece.androidx.optical.InsetsCompat
 import kotlin.LazyThreadSafetyMode.NONE
 
 private val drawableGetter by lazy(NONE) {
@@ -25,6 +25,11 @@ private val viewGetter by lazy(NONE) {
     View::class.java.getDeclaredMethod("getOpticalInsets")
 }
 
+/**
+ * Returns the layout insets suggested by this Drawable for use with alignment
+ * operations during layout.
+ */
+@SuppressLint("LogNotTimber")
 fun Drawable.getOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 21 && this is InsetDrawable) {
     val actual = getActualOpticalInsets()
     if (actual === Insets.NONE) {
@@ -55,6 +60,9 @@ private fun Drawable.getActualOpticalInsets(): Insets = if (Build.VERSION.SDK_IN
     drawableGetter.invoke(this) as Insets
 }
 
+/**
+ * Returns the insets that will be used during optical bounds layout mode.
+ */
 fun View.getOpticalInsets(): Insets = viewGetter.invoke(this) as Insets
 
 /**
@@ -78,6 +86,9 @@ private object InsetDrawableReflection {
     private val fieldInsetBottom = classInsetState.getDeclaredField("mInsetBottom")
         .apply { isAccessible = true }
 
+    /**
+     * Extracts insets from an [InsetDrawable].
+     */
     @RequiresApi(16)
     internal fun getOpticalInsets(drawable: InsetDrawable): Insets {
         val state = fieldInsetState.get(drawable)

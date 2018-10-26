@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout"
-    tools:showIn="@layout/layout_wrong">
+    tools:showIn="@layout/layout_fixed">
 
     <include
         layout="@layout/item_card"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"/>
 
     <include
-        layout="@layout/item_appcompat_button"
+        layout="@layout/item_inset_appcompat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
@@ -24,7 +24,7 @@
         android:layout_marginTop="8dp"/>
 
     <include
-        layout="@layout/item_material_button"
+        layout="@layout/item_inset_material_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>

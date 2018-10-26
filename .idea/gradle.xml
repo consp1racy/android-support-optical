@@ -9,8 +9,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/insets" />
+            <option value="$PROJECT_DIR$/insets-extensions" />
+            <option value="$PROJECT_DIR$/insets-helper" />
             <option value="$PROJECT_DIR$/platform-hidden" />
             <option value="$PROJECT_DIR$/platform-insets" />
+            <option value="$PROJECT_DIR$/platform-insets-private" />
             <option value="$PROJECT_DIR$/root-constraint-layout" />
             <option value="$PROJECT_DIR$/root-coordinator-layout" />
             <option value="$PROJECT_DIR$/root-frame-layout" />
