@@ -2,7 +2,7 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    tools:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout"
     tools:showIn="@layout/layout_fixed">
 
@@ -13,6 +13,12 @@
 
     <include
         layout="@layout/item_appcompat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
+
+    <include
+        layout="@layout/item_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
@@ -41,9 +47,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
 
-    <include
-        layout="@layout/item_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+    <!--<include-->
+        <!--layout="@layout/item_material_card"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="8dp"/>-->
+
+    <!--<include-->
+        <!--layout="@layout/item_material_card"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="8dp"/>-->
 </merge>
