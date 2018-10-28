@@ -9,5 +9,5 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <include layout="@layout/layout_content" />
+    <include layout="@layout/layout_content"/>
 </net.xpece.androidx.optical.RootLinearLayout>
