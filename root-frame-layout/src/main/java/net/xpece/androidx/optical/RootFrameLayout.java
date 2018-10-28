@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StyleRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 public class RootFrameLayout extends FrameLayout {
@@ -35,7 +36,15 @@ public class RootFrameLayout extends FrameLayout {
     @NonNull
     @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    Insets getOpticalInsets() {
+    public Insets getOpticalInsets() {
         return InsetsCompat.NONE;
+    }
+
+    //@Override
+    @RequiresApi(16)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @SuppressWarnings("unused")
+    public void setOpticalInsets(@NonNull Insets insets) {
+        Log.w("RootFrameLayout", "Cannot set optical insets on this layout.");
     }
 }

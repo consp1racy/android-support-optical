@@ -79,35 +79,13 @@ public final class InsetsCompat {
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets plus(final @NonNull Insets first, final @NonNull Insets second) {
-        return of(
-                first.left + second.left,
-                first.top + second.top,
-                first.right + second.right,
-                first.bottom + second.bottom
-        );
-    }
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets maxOf(final @NonNull Insets... insets) {
+    static Insets union(final @NonNull Insets... insets) {
         int left = 0, top = 0, right = 0, bottom = 0;
         for (final Insets i : insets) {
             left = Math.max(left, i.left);
             top = Math.max(top, i.top);
             right = Math.max(right, i.right);
             bottom = Math.max(bottom, i.bottom);
-        }
-        return of(left, top, right, bottom);
-    }
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public static Insets minOf(final @NonNull Insets... insets) {
-        int left = Integer.MAX_VALUE, top = Integer.MAX_VALUE, right = Integer.MAX_VALUE, bottom = Integer.MAX_VALUE;
-        for (final Insets i : insets) {
-            left = Math.min(left, i.left);
-            top = Math.min(top, i.top);
-            right = Math.min(right, i.right);
-            bottom = Math.min(bottom, i.bottom);
         }
         return of(left, top, right, bottom);
     }

@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class RootCoordinatorLayout extends CoordinatorLayout {
     public RootCoordinatorLayout(@NonNull Context context) {
@@ -28,7 +29,15 @@ public class RootCoordinatorLayout extends CoordinatorLayout {
     @NonNull
     @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    Insets getOpticalInsets() {
+    public Insets getOpticalInsets() {
         return InsetsCompat.NONE;
+    }
+
+    //@Override
+    @RequiresApi(16)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @SuppressWarnings("unused")
+    public void setOpticalInsets(@NonNull Insets insets) {
+        Log.w("RootCoordinatorLayout", "Cannot set optical insets on this layout.");
     }
 }

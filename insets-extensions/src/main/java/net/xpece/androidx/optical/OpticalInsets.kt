@@ -12,9 +12,10 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.Log
 import android.view.View
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.LazyThreadSafetyMode.NONE
 
-private val viewGetter by lazy(NONE) {
+private val viewInsetsGetter by lazy(NONE) {
     View::class.java.getDeclaredMethod("getOpticalInsets")
 }
 
@@ -22,58 +23,52 @@ private val viewGetter by lazy(NONE) {
  * Returns the insets that will be used during optical bounds layout mode.
  */
 @RequiresApi(16)
-fun View.getOpticalInsets(): Insets = viewGetter.invoke(this) as Insets
+fun View.getOpticalInsets(): Insets = viewInsetsGetter.invoke(this) as Insets
 
-private val drawableGetter by lazy(NONE) {
-    Drawable::class.java.getDeclaredMethod("getOpticalInsets")
+private val drawableInsetsGetter by lazy(NONE) {
+    // This condition check may be optimized away by R8 depending on consumer's min SDK version.
+    if (Build.VERSION.SDK_INT < 18) {
+        Drawable::class.java.getDeclaredMethod("getLayoutInsets")
+    } else {
+        Drawable::class.java.getDeclaredMethod("getOpticalInsets")
+    }
 }
 
-private val drawableLegacyGetter by lazy(NONE) {
-    Drawable::class.java.getDeclaredMethod("getLayoutInsets")
-}
+@Suppress("NOTHING_TO_INLINE")
+private inline fun Drawable.getActualOpticalInsets(): Insets =
+    drawableInsetsGetter.invoke(this) as Insets
 
-// This condition check may be optimized away by R8 depending on consumer's min SDK version.
-private fun Drawable.getActualOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 18) {
-    drawableLegacyGetter.invoke(this) as Insets
-} else {
-    drawableGetter.invoke(this) as Insets
-}
+private val isLoggedInsetDrawableReflectionError = AtomicBoolean(false)
+private val isLoggedLayerDrawableReflectionError = AtomicBoolean(false)
 
 /**
  * Returns the layout insets suggested by this Drawable for use with alignment
  * operations during layout.
  */
 @RequiresApi(16)
-@SuppressLint("LogNotTimber")
 fun Drawable.getOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 21 && this is InsetDrawable) {
     val actual = getActualOpticalInsets()
-    if (actual === Insets.NONE) {
-        // If the value is the same instance as the framework's NONE
-        // it most certainly means a custom value wasn't provided by a potential subclass.
+    if (actual == InsetsCompat.NONE) {
         try {
             InsetDrawableReflection.getOpticalInsets(this)
         } catch (ex: Throwable) {
-            Log.w(
-                "OpticalInsets",
-                "Couldn't access InsetDrawable data using reflection. Oh well... ${ex.localizedMessage}"
-            )
+            if (!isLoggedInsetDrawableReflectionError.getAndSet(true)) {
+                Log.w(
+                    "OpticalInsets",
+                    "Couldn't access InsetDrawable data using reflection. Oh well...",
+                    ex
+                )
+            }
             actual
         }
     } else {
-        // If the value is different from framework's NONE,
-        // it probably means it was overridden using InsetsCompat.
         actual
     }
 } else if (this is LayerDrawable) {
     val actual = getActualOpticalInsets()
-    if (actual === Insets.NONE) {
-        val allInsets = (0 until numberOfLayers).map { i ->
-            val d = getDrawable(i)
-            val drawableInsets = d.getOpticalInsets()
-            val layerInsets = getLayerInsets(i)
-            InsetsCompat.plus(drawableInsets, layerInsets)
-        }
-        InsetsCompat.maxOf(*allInsets.toTypedArray())
+    if (actual == InsetsCompat.NONE) {
+        val allInsets = Array(numberOfLayers, this::getTotalLayerInsets)
+        InsetsCompat.union(*allInsets)
     } else {
         actual
     }
@@ -81,21 +76,25 @@ fun Drawable.getOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 21 && this
     getActualOpticalInsets()
 }
 
-private fun LayerDrawable.getLayerInsets(i: Int): Insets = if (Build.VERSION.SDK_INT >= 23) {
+private fun LayerDrawable.getTotalLayerInsets(i: Int): Insets = if (Build.VERSION.SDK_INT >= 23) {
+    val drawableInsets = getDrawable(i).getOpticalInsets()
     InsetsCompat.of(
-        getLayerInsetLeft(i),
-        getLayerInsetTop(i),
-        getLayerInsetRight(i),
-        getLayerInsetBottom(i)
+        getLayerInsetLeft(i) + drawableInsets.left,
+        getLayerInsetTop(i) + drawableInsets.top,
+        getLayerInsetRight(i) + drawableInsets.right,
+        getLayerInsetBottom(i) + drawableInsets.bottom
     )
 } else {
     try {
-        LayerDrawableReflection.getLayerInsets(this, i)
+        LayerDrawableReflection.getTotalLayerInsets(this, i)
     } catch (ex: Throwable) {
-        Log.w(
-            "OpticalInsets",
-            "Couldn't access LayerDrawable data using reflection. Oh well... ${ex.localizedMessage}"
-        )
+        if (!isLoggedLayerDrawableReflectionError.getAndSet(true)) {
+            Log.w(
+                "OpticalInsets",
+                "Couldn't access LayerDrawable data using reflection. Oh well...",
+                ex
+            )
+        }
         InsetsCompat.NONE
     }
 }
@@ -128,15 +127,16 @@ private object LayerDrawableReflection {
         .apply { isAccessible = true }
 
     @RequiresApi(16)
-    internal fun getLayerInsets(drawable: LayerDrawable, index: Int): Insets {
+    internal fun getTotalLayerInsets(drawable: LayerDrawable, i: Int): Insets {
+        val drawableInsets = drawable.getDrawable(i).getOpticalInsets()
         val state = fieldLayerState.get(drawable)
         val children = fieldChildren.get(state) as Array<*>
-        val layer = children[index]
+        val layer = children[i]
         return InsetsCompat.of(
-            fieldInsetLeft.getInt(layer),
-            fieldInsetTop.getInt(layer),
-            fieldInsetRight.getInt(layer),
-            fieldInsetBottom.getInt(layer)
+            fieldInsetLeft.getInt(layer) + drawableInsets.left,
+            fieldInsetTop.getInt(layer) + drawableInsets.top,
+            fieldInsetRight.getInt(layer) + drawableInsets.right,
+            fieldInsetBottom.getInt(layer) + drawableInsets.bottom
         )
     }
 }

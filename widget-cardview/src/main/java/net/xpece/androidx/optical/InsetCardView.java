@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class InsetCardView extends CardView {
 
@@ -44,7 +45,7 @@ public class InsetCardView extends CardView {
     @NonNull
     @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    Insets getOpticalInsets() {
+    public Insets getOpticalInsets() {
         if (mOpticalInsets == null) {
             if (Build.VERSION.SDK_INT < 21 || getUseCompatPadding()) {
                 final float maxCardElevation = getMaxCardElevation();
@@ -63,5 +64,13 @@ public class InsetCardView extends CardView {
             }
         }
         return mOpticalInsets;
+    }
+
+    //@Override
+    @RequiresApi(16)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @SuppressWarnings("unused")
+    public void setOpticalInsets(@NonNull Insets insets) {
+        Log.w("InsetCardView", "Cannot set optical insets on this widget.");
     }
 }

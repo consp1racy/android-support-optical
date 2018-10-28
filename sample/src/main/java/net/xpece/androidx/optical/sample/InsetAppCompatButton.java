@@ -36,4 +36,12 @@ public class InsetAppCompatButton extends AppCompatButton {
     Insets getOpticalInsets() {
         return mOpticalHelper.onGetOpticalInsets();
     }
+
+    //@Override
+    @RequiresApi(16)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @SuppressWarnings("unused")
+    public void setOpticalInsets(@NonNull Insets insets) {
+        mOpticalHelper.onSetOpticalInsets(insets);
+    }
 }

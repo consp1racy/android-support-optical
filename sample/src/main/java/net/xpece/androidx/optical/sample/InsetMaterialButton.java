@@ -33,7 +33,15 @@ public class InsetMaterialButton extends MaterialButton {
     @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
-    Insets getOpticalInsets() {
+    public Insets getOpticalInsets() {
         return mOpticalHelper.onGetOpticalInsets();
+    }
+
+    //@Override
+    @RequiresApi(16)
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @SuppressWarnings("unused")
+    public void setOpticalInsets(@NonNull Insets insets) {
+        mOpticalHelper.onSetOpticalInsets(insets);
     }
 }

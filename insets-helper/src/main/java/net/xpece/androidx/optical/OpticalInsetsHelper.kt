@@ -2,13 +2,14 @@ package net.xpece.androidx.optical
 
 import android.graphics.Insets
 import android.graphics.drawable.InsetDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.RippleDrawable
 import android.support.annotation.RequiresApi
 import android.view.View
 
 /**
- * Helper class for making views aware of optical insets on [InsetDrawable] below API 21.
- *
- * This class is not needed on API 21 and above.
+ * Helper class for making views aware of optical insets on [InsetDrawable] below API 21,
+ * and [LayerDrawable] (including children such as [RippleDrawable]) on all API levels.
  */
 @RequiresApi(16)
 class OpticalInsetsHelper(private val view: View) {
@@ -24,5 +25,15 @@ class OpticalInsetsHelper(private val view: View) {
             opticalInsets = view.background?.getOpticalInsets() ?: InsetsCompat.NONE
         }
         return opticalInsets!!
+    }
+
+    /**
+     * Call this from `View.setOpticalInsets(Insets)`.
+     */
+    fun onSetOpticalInsets(insets: Insets) {
+        if (opticalInsets != insets) {
+            opticalInsets = insets
+            view.requestLayout()
+        }
     }
 }
