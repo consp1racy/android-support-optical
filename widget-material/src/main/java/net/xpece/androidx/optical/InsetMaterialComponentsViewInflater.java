@@ -1,4 +1,4 @@
-package net.xpece.androidx.optical.sample;
+package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.support.annotation.Keep;
@@ -9,14 +9,14 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
-
-import net.xpece.androidx.optical.InsetCardView;
-import net.xpece.androidx.optical.InsetMaterialCardView;
 
 @Keep
 @SuppressWarnings("unused")
 public class InsetMaterialComponentsViewInflater extends MaterialComponentsViewInflater {
+
+    private static final String TAG = "InsetViewInflater";
 
     @NonNull
     @Override
@@ -45,12 +45,17 @@ public class InsetMaterialComponentsViewInflater extends MaterialComponentsViewI
             final @NonNull AttributeSet attrs) {
         if (InsetViewInflaters.isReplaceCardViews() &&
                 name.equals(InsetViewInflaters.CARD_VIEW_CLASS_NAME)) {
-            return new InsetCardView(context, attrs);
+            try {
+                return new InsetCardView(context, attrs);
+            } catch (LinkageError ex) {
+                Log.e(TAG,
+                        "Couldn't inflate InsetCardView automatically. Did you declare dependency"
+                                + " on widget-cardview?");
+            }
         } else if (InsetViewInflaters.isReplaceCardViews() &&
                 name.equals(InsetViewInflaters.MATERIAL_CARD_VIEW_CLASS_NAME)) {
             return new InsetMaterialCardView(context, attrs);
-        } else {
-            return super.createView(context, name, attrs);
         }
+        return super.createView(context, name, attrs);
     }
 }

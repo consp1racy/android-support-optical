@@ -1,4 +1,4 @@
-package net.xpece.androidx.optical.sample;
+package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;

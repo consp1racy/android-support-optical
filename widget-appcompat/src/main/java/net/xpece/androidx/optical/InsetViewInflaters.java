@@ -1,4 +1,4 @@
-package net.xpece.androidx.optical.sample;
+package net.xpece.androidx.optical;
 
 import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
@@ -7,7 +7,7 @@ import android.view.View;
 
 public class InsetViewInflaters {
 
-    private static Boolean sTranslateCardViewFqcns = false;
+    private static Boolean sReplaceCardViews = false;
 
     /**
      * Controls whether fully-qualified {@link CardView}s in XML layouts should be inflated to their
@@ -17,11 +17,11 @@ public class InsetViewInflaters {
      *                         with their inset-aware counterparts.
      */
     public static void setReplaceCardViews(final boolean replaceCardViews) {
-        sTranslateCardViewFqcns = replaceCardViews;
+        sReplaceCardViews = replaceCardViews;
     }
 
     static boolean isReplaceCardViews() {
-        return sTranslateCardViewFqcns;
+        return sReplaceCardViews;
     }
 
     @Nullable
@@ -37,7 +37,7 @@ public class InsetViewInflaters {
     }
 
     @Nullable
-    private static String getParentClassName(Class<? extends View> klazz) {
+    static String getParentClassName(Class<? extends View> klazz) {
         String name = null;
         try {
             //noinspection ConstantConditions

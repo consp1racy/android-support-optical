@@ -1,4 +1,4 @@
-package net.xpece.androidx.optical.sample;
+package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
@@ -6,24 +6,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RestrictTo;
-import android.support.design.button.MaterialButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
 import net.xpece.androidx.optical.OpticalInsetsHelper;
 
-public class InsetMaterialButton extends MaterialButton {
+public class InsetAppCompatEditText extends AppCompatEditText {
 
     private OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
 
-    public InsetMaterialButton(final @NonNull Context context) {
+    public InsetAppCompatEditText(final @NonNull Context context) {
         super(context);
     }
 
-    public InsetMaterialButton(final @NonNull Context context, final @Nullable AttributeSet attrs) {
+    public InsetAppCompatEditText(final @NonNull Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public InsetMaterialButton(final @NonNull Context context, final @Nullable AttributeSet attrs,
+    public InsetAppCompatEditText(final @NonNull Context context, final @Nullable AttributeSet attrs,
             final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
