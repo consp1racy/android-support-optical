@@ -22,6 +22,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url "https://dl.bintray.com/consp1racy/maven" }
     }
 
     // Disable BuildConfig generation for Android library modules so javac can be skipped altogether.

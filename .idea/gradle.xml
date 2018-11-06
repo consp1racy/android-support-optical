@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/root-linear-layout" />
             <option value="$PROJECT_DIR$/sample" />
             <option value="$PROJECT_DIR$/widget-appcompat" />
+            <option value="$PROJECT_DIR$/widget-cardbutton" />
             <option value="$PROJECT_DIR$/widget-cardview" />
             <option value="$PROJECT_DIR$/widget-material" />
           </set>
