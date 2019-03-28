@@ -30,7 +30,7 @@ dependencies {
     compileOnly project(':platform-insets')
     testCompileOnly project(':platform-insets')
 
-    implementation "com.android.support:support-annotations:28.0.0"
+    implementation 'androidx.annotation:annotation:1.0.2'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

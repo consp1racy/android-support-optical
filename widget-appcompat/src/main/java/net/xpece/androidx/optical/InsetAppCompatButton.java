@@ -2,14 +2,12 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.RestrictTo;
-import android.support.v7.widget.AppCompatButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.AppCompatButton;
 import android.util.AttributeSet;
-
-import net.xpece.androidx.optical.OpticalInsetsHelper;
 
 public class InsetAppCompatButton extends AppCompatButton {
 

@@ -4,7 +4,7 @@ import android.graphics.Insets
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.view.View
 
 /**

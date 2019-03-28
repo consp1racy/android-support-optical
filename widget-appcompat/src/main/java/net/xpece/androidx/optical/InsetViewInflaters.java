@@ -1,8 +1,8 @@
 package net.xpece.androidx.optical;
 
-import android.support.annotation.Nullable;
-import android.support.design.card.MaterialCardView;
-import android.support.v7.widget.CardView;
+import androidx.annotation.Nullable;
+import com.google.android.material.card.MaterialCardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 
 public class InsetViewInflaters {

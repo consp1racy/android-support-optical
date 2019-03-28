@@ -1,13 +1,13 @@
 package net.xpece.androidx.optical;
 
 import android.content.Context;
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.theme.MaterialComponentsViewInflater;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatSpinner;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.theme.MaterialComponentsViewInflater;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
