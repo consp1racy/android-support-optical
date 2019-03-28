@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'digital.wup.android-maven-publish'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 'android-Q'
 
     defaultConfig {
         minSdkVersion 16
@@ -26,9 +26,6 @@ android {
 
 dependencies {
     implementation project(':insets')
-
-    compileOnly project(':platform-insets')
-    testCompileOnly project(':platform-insets')
 
     implementation 'androidx.annotation:annotation:1.0.2'
 	

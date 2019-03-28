@@ -1,5 +1,3 @@
-include ':platform-hidden'
-include ':platform-insets-private'
 include ':platform-insets'
 include ':insets', ':insets-extensions', ':insets-helper'
 include ':root-linear-layout'

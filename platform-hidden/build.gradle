@@ -1,9 +1,0 @@
-apply plugin: 'java-library'
-
-/*
- * This module contains stubs of classes from Android SDK
- * so they're available to Java libraries that need them at compile time.
- */
-
-sourceCompatibility = "6"
-targetCompatibility = "6"
