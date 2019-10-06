@@ -29,7 +29,7 @@ dependencies {
 
     implementation 'androidx.annotation:annotation:1.0.2'
     
-	api 'net.xpece.android:widget-cardbutton:26.0.0-8'
+	api 'net.xpece.android:cardbutton:1.0.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

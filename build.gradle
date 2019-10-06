@@ -7,14 +7,18 @@ buildscript {
     repositories {
         google()
         jcenter()
+        gradlePluginPortal()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'digital.wup:android-maven-publish:3.6.2'
+        classpath 'com.github.plnice:canidropjetifier:0.5'
     }
 }
+
+apply plugin: 'com.github.plnice.canidropjetifier'
 
 allprojects {
     repositories {
