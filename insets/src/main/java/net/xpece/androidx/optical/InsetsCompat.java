@@ -1,5 +1,7 @@
 package net.xpece.androidx.optical;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.graphics.Insets;
 import android.graphics.Rect;
 import android.graphics.drawable.InsetDrawable;
@@ -18,6 +20,7 @@ import androidx.annotation.RestrictTo;
  * Insets are immutable so may be treated as values.
  */
 @RequiresApi(16)
+@TargetApi(29)
 @SuppressWarnings("unused")
 public final class InsetsCompat {
 
@@ -51,6 +54,7 @@ public final class InsetsCompat {
      * @param bottom the bottom inset
      * @return Insets instance with the appropriate values
      */
+    @SuppressLint("NewApi")
     public static Insets of(int left, int top, int right, int bottom) {
         if (sSafe) {
             return Insets.of(left, top, right, bottom);
@@ -74,6 +78,7 @@ public final class InsetsCompat {
         }
     }
 
+    @SuppressLint("NewApi")
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     static Insets union(final @NonNull Insets... insets) {
         int left = 0, top = 0, right = 0, bottom = 0;

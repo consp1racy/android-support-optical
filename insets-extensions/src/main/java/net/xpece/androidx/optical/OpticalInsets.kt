@@ -4,11 +4,13 @@
 package net.xpece.androidx.optical
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.graphics.Insets
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.View
@@ -16,12 +18,15 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.LazyThreadSafetyMode.NONE
 
 private val viewInsetsGetter by lazy(NONE) {
+    //noinspection SoonBlockedPrivateApi
     View::class.java.getDeclaredMethod("getOpticalInsets")
 }
 
 /**
  * Returns the insets that will be used during optical bounds layout mode.
  */
+@SuppressLint("NewApi")
+@Deprecated("Shadows platform call. Doesn't work on API 29+.")
 @RequiresApi(16)
 fun View.getOpticalInsets(): Insets = viewInsetsGetter.invoke(this) as Insets
 
@@ -34,9 +39,12 @@ private val drawableInsetsGetter by lazy(NONE) {
     }
 }
 
-@Suppress("NOTHING_TO_INLINE")
-private inline fun Drawable.getActualOpticalInsets(): Insets =
+@TargetApi(29)
+private fun Drawable.getActualOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 18) {
     drawableInsetsGetter.invoke(this) as Insets
+} else {
+    opticalInsets
+}
 
 private val isLoggedInsetDrawableReflectionError = AtomicBoolean(false)
 private val isLoggedLayerDrawableReflectionError = AtomicBoolean(false)
@@ -45,39 +53,52 @@ private val isLoggedLayerDrawableReflectionError = AtomicBoolean(false)
  * Returns the layout insets suggested by this Drawable for use with alignment
  * operations during layout.
  */
+@Suppress("EXTENSION_SHADOWED_BY_MEMBER")
+@Deprecated("Shadows platform call.", replaceWith = ReplaceWith("getOpticalInsetsCompat"))
 @RequiresApi(16)
-fun Drawable.getOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 21 && this is InsetDrawable) {
-    val actual = getActualOpticalInsets()
-    if (actual == InsetsCompat.NONE) {
-        try {
-            InsetDrawableReflection.getOpticalInsets(this)
-        } catch (ex: Throwable) {
-            if (!isLoggedInsetDrawableReflectionError.getAndSet(true)) {
-                Log.w(
-                    "OpticalInsets",
-                    "Couldn't access InsetDrawable data using reflection. Oh well...",
-                    ex
-                )
+fun Drawable.getOpticalInsets(): Insets = getOpticalInsetsCompat()
+
+/**
+ * Returns the layout insets suggested by this Drawable for use with alignment
+ * operations during layout.
+ */
+@Suppress("LiftReturnOrAssignment")
+@RequiresApi(16)
+fun Drawable.getOpticalInsetsCompat(): Insets {
+    if (Build.VERSION.SDK_INT < 21 && this is InsetDrawable) {
+        val actual = getActualOpticalInsets()
+        if (actual == InsetsCompat.NONE) {
+            try {
+                return InsetDrawableReflection.getOpticalInsets(this)
+            } catch (ex: Throwable) {
+                if (!isLoggedInsetDrawableReflectionError.getAndSet(true)) {
+                    Log.w(
+                        "OpticalInsets",
+                        "Couldn't access InsetDrawable data using reflection. Oh well...",
+                        ex
+                    )
+                }
+                return actual
             }
-            actual
+        } else {
+            return actual
+        }
+    } else if (this is LayerDrawable) {
+        val actual = getActualOpticalInsets()
+        if (actual == InsetsCompat.NONE) {
+            val allInsets = Array(numberOfLayers, this::getTotalLayerInsets)
+            return InsetsCompat.union(*allInsets)
+        } else {
+            return actual
         }
     } else {
-        actual
+        return getActualOpticalInsets()
     }
-} else if (this is LayerDrawable) {
-    val actual = getActualOpticalInsets()
-    if (actual == InsetsCompat.NONE) {
-        val allInsets = Array(numberOfLayers, this::getTotalLayerInsets)
-        InsetsCompat.union(*allInsets)
-    } else {
-        actual
-    }
-} else {
-    getActualOpticalInsets()
 }
 
+@TargetApi(29)
 private fun LayerDrawable.getTotalLayerInsets(i: Int): Insets = if (Build.VERSION.SDK_INT >= 23) {
-    val drawableInsets = getDrawable(i).getOpticalInsets()
+    val drawableInsets = getDrawable(i).getOpticalInsetsCompat()
     InsetsCompat.of(
         getLayerInsetLeft(i) + drawableInsets.left,
         getLayerInsetTop(i) + drawableInsets.top,
@@ -127,8 +148,10 @@ private object LayerDrawableReflection {
         .apply { isAccessible = true }
 
     @RequiresApi(16)
+    @TargetApi(29)
+    @SuppressLint("NewApi")
     internal fun getTotalLayerInsets(drawable: LayerDrawable, i: Int): Insets {
-        val drawableInsets = drawable.getDrawable(i).getOpticalInsets()
+        val drawableInsets = drawable.getDrawable(i).getOpticalInsetsCompat()
         val state = fieldLayerState.get(drawable)
         val children = fieldChildren.get(state) as Array<*>
         val layer = children[i]

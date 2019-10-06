@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import net.xpece.androidx.optical.getOpticalInsets
+import net.xpece.androidx.optical.getOpticalInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +48,6 @@ class MainActivity : AppCompatActivity() {
             navigation.selectedItemId = R.id.navigation_wrong
         }
 
-        LayerDrawable(arrayOf(ColorDrawable(0))).getOpticalInsets()
+        LayerDrawable(arrayOf(ColorDrawable(0))).getOpticalInsetsCompat()
     }
 }
