@@ -30,22 +30,6 @@ private val viewInsetsGetter by lazy(NONE) {
 @RequiresApi(16)
 fun View.getOpticalInsets(): Insets = viewInsetsGetter.invoke(this) as Insets
 
-private val drawableInsetsGetter by lazy(NONE) {
-    // This condition check may be optimized away by R8 depending on consumer's min SDK version.
-    if (Build.VERSION.SDK_INT < 18) {
-        Drawable::class.java.getDeclaredMethod("getLayoutInsets")
-    } else {
-        Drawable::class.java.getDeclaredMethod("getOpticalInsets")
-    }
-}
-
-@TargetApi(29)
-private fun Drawable.getActualOpticalInsets(): Insets = if (Build.VERSION.SDK_INT < 18) {
-    drawableInsetsGetter.invoke(this) as Insets
-} else {
-    opticalInsets
-}
-
 private val isLoggedInsetDrawableReflectionError = AtomicBoolean(false)
 private val isLoggedLayerDrawableReflectionError = AtomicBoolean(false)
 
@@ -62,11 +46,18 @@ fun Drawable.getOpticalInsets(): Insets = getOpticalInsetsCompat()
  * Returns the layout insets suggested by this Drawable for use with alignment
  * operations during layout.
  */
+@SuppressLint("NewApi")
 @Suppress("LiftReturnOrAssignment")
 @RequiresApi(16)
+@TargetApi(29)
 fun Drawable.getOpticalInsetsCompat(): Insets {
+    if (Build.VERSION.SDK_INT < 18) {
+        // Optical layout is not supported on API 17 and lower. Don't bother computing.
+        return InsetsCompat.NONE
+    }
+
     if (Build.VERSION.SDK_INT < 21 && this is InsetDrawable) {
-        val actual = getActualOpticalInsets()
+        val actual = opticalInsets
         if (actual == InsetsCompat.NONE) {
             try {
                 return InsetDrawableReflection.getOpticalInsets(this)
@@ -84,7 +75,7 @@ fun Drawable.getOpticalInsetsCompat(): Insets {
             return actual
         }
     } else if (this is LayerDrawable) {
-        val actual = getActualOpticalInsets()
+        val actual = opticalInsets
         if (actual == InsetsCompat.NONE) {
             val allInsets = Array(numberOfLayers, this::getTotalLayerInsets)
             return InsetsCompat.union(*allInsets)
@@ -92,7 +83,7 @@ fun Drawable.getOpticalInsetsCompat(): Insets {
             return actual
         }
     } else {
-        return getActualOpticalInsets()
+        return opticalInsets
     }
 }
 
