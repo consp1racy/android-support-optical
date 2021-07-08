@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.widget.AppCompatButton;
+
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
 public class InsetAppCompatButton extends AppCompatButton {
@@ -15,15 +17,26 @@ public class InsetAppCompatButton extends AppCompatButton {
 
     public InsetAppCompatButton(final @NonNull Context context) {
         super(context);
+        mOpticalHelper.onSetBackground(getBackground());
     }
 
     public InsetAppCompatButton(final @NonNull Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mOpticalHelper.onSetBackground(getBackground());
     }
 
     public InsetAppCompatButton(final @NonNull Context context, final @Nullable AttributeSet attrs,
             final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mOpticalHelper.onSetBackground(getBackground());
+    }
+
+    @Override
+    public void setBackground(Drawable background) {
+        if (mOpticalHelper != null) {
+            mOpticalHelper.onSetBackground(background);
+        }
+        super.setBackground(background);
     }
 
     //@Override

@@ -2,6 +2,7 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -16,15 +17,26 @@ public class InsetEditText extends EditText {
 
     public InsetEditText(final @NonNull Context context) {
         super(context);
+        mOpticalHelper.onSetBackground(getBackground());
     }
 
     public InsetEditText(final @NonNull Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mOpticalHelper.onSetBackground(getBackground());
     }
 
     public InsetEditText(final @NonNull Context context, final @Nullable AttributeSet attrs,
                          final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mOpticalHelper.onSetBackground(getBackground());
+    }
+
+    @Override
+    public void setBackground(Drawable background) {
+        if (mOpticalHelper != null) {
+            mOpticalHelper.onSetBackground(background);
+        }
+        super.setBackground(background);
     }
 
     //@Override
