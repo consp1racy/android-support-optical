@@ -1,4 +1,3 @@
-include ':platform-insets'
 include ':insets', ':insets-extensions', ':insets-helper'
 include ':root-linear-layout'
 include ':root-frame-layout'
