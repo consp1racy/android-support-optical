@@ -1,5 +1,6 @@
 package net.xpece.androidx.optical;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Insets;
 import android.graphics.drawable.Drawable;
@@ -11,9 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
-public class InsetSpinner extends Spinner {
+public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
 
-    private OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
+    private final OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
+    private final SpinnerHelper<InsetSpinner> mSpinnerHelper = new SpinnerHelper<>(this);
 
     public InsetSpinner(final @NonNull Context context) {
         super(context);
@@ -39,7 +41,7 @@ public class InsetSpinner extends Spinner {
         super.setBackground(background);
     }
 
-    //@Override
+    @Override
     @NonNull
     @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -54,5 +56,38 @@ public class InsetSpinner extends Spinner {
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {
         mOpticalHelper.onSetOpticalInsets(insets);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mSpinnerHelper.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @SuppressLint("WrongCall")
+    @Override
+    public void superOnMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    public void doSetMeasuredDimension(int measuredWidth, int measuredHeight) {
+        setMeasuredDimension(measuredWidth, measuredHeight);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        mSpinnerHelper.onLayout(changed, l, t, r, b);
+    }
+
+    @SuppressLint("WrongCall")
+    @Override
+    public void superOnLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+    }
+
+    @RequiresApi(18)
+    @SuppressWarnings("unused")
+    boolean isLayoutModeOptical() {
+        return mSpinnerHelper.isLayoutModeOptical();
     }
 }
