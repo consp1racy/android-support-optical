@@ -43,7 +43,8 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         try {
             mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            if (getLayoutMode() == LAYOUT_MODE_OPTICAL_BOUNDS) {
+            final int layoutMode = getLayoutMode();
+            if (layoutMode == LAYOUT_MODE_OPTICAL_BOUNDS && layoutMode == getParentLayoutMode()) {
                 final Insets insets = mSpinner.getOpticalInsets();
                 int adjustWidth = -(insets.left + insets.right);
                 int adjustHeight = -(insets.top + insets.bottom);
@@ -74,6 +75,9 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         if (v != null) {
             final Insets insets = mSpinner.getOpticalInsets();
             v.offsetLeftAndRight(-insets.left);
+            if (getLayoutMode() != getParentLayoutMode()) {
+                v.offsetTopAndBottom(-insets.top);
+            }
         }
     }
 
