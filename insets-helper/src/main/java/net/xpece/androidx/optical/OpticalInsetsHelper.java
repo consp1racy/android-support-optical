@@ -32,7 +32,9 @@ public final class OpticalInsetsHelper {
         if (opticalInsets == null) {
             // Same as platform, we don't support changing insets once resolved.
             final Drawable background = view.getBackground();
-            opticalInsets = background != null ? background.getOpticalInsets() : InsetsCompat.NONE;
+            opticalInsets = background != null
+                    ? OpticalInsets.getOpticalInsetsCompat(background)
+                    : InsetsCompat.NONE;
             // If background.getOpticalInsets() returns null this will blow up.
         }
         return opticalInsets;
