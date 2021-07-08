@@ -35,7 +35,6 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
 
     implementation project(':widget-cardview')
-    implementation project(':widget-cardbutton')
     implementation project(':widget-material')
     implementation project(':root-linear-layout')
 
