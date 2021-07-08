@@ -6,7 +6,7 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         gradlePluginPortal()
     }
 
@@ -23,8 +23,7 @@ apply plugin: 'com.github.plnice.canidropjetifier'
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url "https://dl.bintray.com/consp1racy/maven" }
+        mavenCentral()
     }
 
     // Disable BuildConfig generation for Android library modules so javac can be skipped altogether.
