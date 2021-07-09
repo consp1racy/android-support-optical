@@ -1,12 +1,11 @@
 package net.xpece.androidx.optical.sample
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class FixedFragment : androidx.fragment.app.Fragment() {
+class FixedFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

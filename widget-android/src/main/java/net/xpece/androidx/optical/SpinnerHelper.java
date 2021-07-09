@@ -4,11 +4,16 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.view.ViewGroup.LAYOUT_MODE_OPTICAL_BOUNDS;
 
 import android.annotation.SuppressLint;
+import android.content.res.TypedArray;
 import android.graphics.Insets;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
@@ -16,12 +21,28 @@ import androidx.annotation.RestrictTo;
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
 
+    private static final int [] ATTRS = new int[] {
+        android.R.attr.clipToPadding
+    };
+
     private final T mSpinner;
 
     private boolean matchParentLayoutMode = false;
 
     public SpinnerHelper(T spinner) {
         this.mSpinner = spinner;
+    }
+
+    public void init(@Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+        final TypedArray t = mSpinner.getContext()
+                .obtainStyledAttributes(attrs, ATTRS, defStyleAttr, 0);
+        try {
+            if (!t.hasValue(0)) {
+                mSpinner.setClipToPadding(false);
+            }
+        } finally {
+            t.recycle();
+        }
     }
 
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -54,10 +75,26 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
     }
 
     private void compensateOpticalBoundsLayoutMode() {
-        final Insets insets = mSpinner.getOpticalInsets();
+        Insets insets = mSpinner.getOpticalInsets();
         int adjustWidth = -(insets.left + insets.right);
         int adjustHeight = -(insets.top + insets.bottom);
+        final View v = mSpinner.getChildAt(0);
+        if (v != null) {
+            insets = getOpticalInsetsCompat(v);
+            adjustWidth -= insets.left + insets.right;
+            adjustHeight -= insets.top + insets.bottom;
+        }
         resetMeasuredDimension(adjustWidth, adjustHeight);
+    }
+
+    private Insets getOpticalInsetsCompat(@NonNull View v) {
+        Insets insets;
+        try {
+            insets = OpticalInsets.getOpticalInsets(v);
+        } catch (Throwable ignore) {
+            insets = OpticalInsets.getOpticalInsetsCompat(v.getBackground());
+        }
+        return insets;
     }
 
     private void resetMeasuredDimension(int adjustWidth, int adjustHeight) {
@@ -103,7 +140,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         mSpinner.superOnLayout(changed, l, t, r, b);
         final View v = mSpinner.getChildAt(0);
         if (v != null) {
-            final Insets insets = mSpinner.getOpticalInsets();
+            Insets insets = mSpinner.getOpticalInsets();
             v.offsetLeftAndRight(-insets.left);
             if (getLayoutMode() != getParentLayoutMode()) {
                 v.offsetTopAndBottom(-insets.top);

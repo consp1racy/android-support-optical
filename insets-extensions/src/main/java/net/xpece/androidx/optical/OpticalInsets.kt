@@ -10,10 +10,9 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
-import android.os.Build.VERSION_CODES
-import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -50,7 +49,11 @@ fun Drawable.getOpticalInsets(): Insets = getOpticalInsetsCompat()
 @Suppress("LiftReturnOrAssignment")
 @RequiresApi(16)
 @TargetApi(29)
-fun Drawable.getOpticalInsetsCompat(): Insets {
+fun Drawable?.getOpticalInsetsCompat(): Insets {
+    if (this == null) {
+        return InsetsCompat.NONE;
+    }
+
     if (Build.VERSION.SDK_INT < 18) {
         // Optical layout is not supported on API 17 and lower. Don't bother computing.
         return InsetsCompat.NONE

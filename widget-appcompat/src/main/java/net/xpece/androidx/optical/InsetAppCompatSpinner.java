@@ -20,17 +20,20 @@ public class InsetAppCompatSpinner extends AppCompatSpinner implements SpinnerHe
     public InsetAppCompatSpinner(final @NonNull Context context) {
         super(context);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(null, androidx.appcompat.R.attr.spinnerStyle);
     }
 
     public InsetAppCompatSpinner(final @NonNull Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(attrs, androidx.appcompat.R.attr.spinnerStyle);
     }
 
     public InsetAppCompatSpinner(final @NonNull Context context, final @Nullable AttributeSet attrs,
             final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(attrs, defStyleAttr);
     }
 
     @Override

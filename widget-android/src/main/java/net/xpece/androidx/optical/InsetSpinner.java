@@ -20,17 +20,20 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
     public InsetSpinner(final @NonNull Context context) {
         super(context);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(null, android.R.attr.spinnerStyle);
     }
 
     public InsetSpinner(final @NonNull Context context, final @Nullable AttributeSet attrs) {
         super(context, attrs);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(attrs, android.R.attr.spinnerStyle);
     }
 
     public InsetSpinner(final @NonNull Context context, final @Nullable AttributeSet attrs,
                         final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOpticalHelper.onSetBackground(getBackground());
+        mSpinnerHelper.init(attrs, defStyleAttr);
     }
 
     @Override
