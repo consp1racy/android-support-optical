@@ -63,6 +63,7 @@ private object DrawableContainerReflection {
         .getDeclaredField("mDrawables")
         .apply { isAccessible = true }
 
+    @Suppress("UNCHECKED_CAST")
     fun getDrawables(state: Any): Array<Drawable?> {
         return drawables.get(state) as Array<Drawable?>
     }

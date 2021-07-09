@@ -1,27 +1,16 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'digital.wup.android-maven-publish'
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("maven-publish")
+}
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 29
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
-
 }
 
 dependencies {
@@ -29,23 +18,17 @@ dependencies {
     implementation project(':insets-helper')
     implementation project(':insets-extensions')
 
-    implementation 'androidx.annotation:annotation:1.0.2'
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testImplementation "org.robolectric:robolectric:3.8"
+    implementation 'androidx.annotation:annotation:1.2.0'
 }
 
 version = '1.0.0'
 
-apply from: rootProject.file('android-tasks.gradle')
-
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            artifact androidSourceJar
+afterEvaluate {
+    publishing {
+        publications {
+            mavenAar(MavenPublication) {
+                from components.release
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricTestRunner::class)
 class InsetCardViewTest {
 
-    @Config(sdk = [17, 19])
+    @Config(sdk = [19])
     @Test
     fun getOpticalInsets_returnsMaxCardElevation_onAndroid4() {
         val activity = Robolectric.setupActivity(Activity::class.java)

@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 // SDK 15 and older is not supported in Robolectric.
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [16, 18])
+@Config(sdk = [18])
 class RootFrameLayoutTest {
 
     @Test

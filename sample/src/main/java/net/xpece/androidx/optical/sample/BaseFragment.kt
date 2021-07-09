@@ -11,7 +11,7 @@ abstract class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ArrayAdapter<String>(
+        val adapter = ArrayAdapter(
             view.context,
             R.layout.item_button_disabled,
             listOf("Optical Layout")

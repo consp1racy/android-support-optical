@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
+import kotlin.Suppress;
+
 @SuppressLint("NewApi")
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
@@ -77,6 +79,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         resetMeasuredDimension(adjustWidth, adjustHeight);
     }
 
+    @SuppressWarnings("deprecation")
     private Insets getOpticalInsetsCompat(@NonNull View v) {
         Insets insets;
         try {

@@ -1,6 +1,8 @@
 package net.xpece.androidx.optical
 
 import android.app.Activity
+import android.view.ContextThemeWrapper
+import com.google.android.material.R
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -12,11 +14,12 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricTestRunner::class)
 class InsetMaterialCardViewTest {
 
-    @Config(sdk = [17, 19])
+    @Config(sdk = [19])
     @Test
     fun getOpticalInsets_returnsMaxCardElevation_onAndroid4() {
         val activity = Robolectric.setupActivity(Activity::class.java)
-        val card = InsetMaterialCardView(activity)
+        val context = ContextThemeWrapper(activity, R.style.Theme_MaterialComponents)
+        val card = InsetMaterialCardView(context)
         card.layout(0, 0, 100, 100)
         // padding - contentPadding is not good enough. It's compound of two rounded numbers.
         val expected = with(card) {
@@ -34,7 +37,8 @@ class InsetMaterialCardViewTest {
     @Test
     fun getOpticalInsets_returnsMaxCardElevation_onLollipopWithCompatPaddingEnabled() {
         val activity = Robolectric.setupActivity(Activity::class.java)
-        val card = InsetMaterialCardView(activity)
+        val context = ContextThemeWrapper(activity, R.style.Theme_MaterialComponents)
+        val card = InsetMaterialCardView(context)
         card.useCompatPadding = true
         card.layout(0, 0, 100, 100)
         // padding - contentPadding is not good enough. It's compound of two rounded numbers.
@@ -53,7 +57,8 @@ class InsetMaterialCardViewTest {
     @Test
     fun getOpticalInsets_returnsNone_onLollipopWithCompatPaddingDisabled() {
         val activity = Robolectric.setupActivity(Activity::class.java)
-        val card = InsetMaterialCardView(activity)
+        val context = ContextThemeWrapper(activity, R.style.Theme_MaterialComponents)
+        val card = InsetMaterialCardView(context)
         card.useCompatPadding = false
         card.layout(0, 0, 100, 100)
         assertEquals(InsetsCompat.NONE, card.opticalInsets)

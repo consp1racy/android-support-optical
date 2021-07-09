@@ -1,46 +1,31 @@
-apply plugin: 'com.android.library'
-apply plugin: 'digital.wup.android-maven-publish'
+plugins {
+    id("com.android.library")
+    id("maven-publish")
+}
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 29
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
-
 }
 
 dependencies {
     implementation project(':insets-extensions')
 
-    implementation 'androidx.annotation:annotation:1.0.2'
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'androidx.annotation:annotation:1.2.0'
 }
-
-apply from: rootProject.file('android-tasks.gradle')
 
 version = '1.0.0'
 
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            artifact androidSourceJar
+afterEvaluate {
+    publishing {
+        publications {
+            mavenAar(MavenPublication) {
+                from components.release
+            }
         }
     }
 }
