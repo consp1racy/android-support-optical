@@ -2,14 +2,13 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.RestrictTo;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.AppCompatButton;
 
 public class InsetAppCompatButton extends AppCompatButton {
 
@@ -41,7 +40,6 @@ public class InsetAppCompatButton extends AppCompatButton {
 
     //@Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
@@ -49,7 +47,6 @@ public class InsetAppCompatButton extends AppCompatButton {
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {

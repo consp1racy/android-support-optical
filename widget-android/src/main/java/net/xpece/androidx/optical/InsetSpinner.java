@@ -9,7 +9,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
 public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
@@ -46,7 +45,6 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
 
     @Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
@@ -54,7 +52,6 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {
@@ -88,7 +85,6 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
         super.onLayout(changed, l, t, r, b);
     }
 
-    @RequiresApi(18)
     @SuppressWarnings("unused")
     boolean isLayoutModeOptical() {
         return mSpinnerHelper.isLayoutModeOptical();

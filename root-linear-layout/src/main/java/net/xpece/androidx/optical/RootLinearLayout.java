@@ -2,15 +2,16 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.widget.LinearLayout;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.StyleRes;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.LinearLayout;
 
 public class RootLinearLayout extends LinearLayout {
     public RootLinearLayout(@NonNull Context context) {
@@ -34,14 +35,12 @@ public class RootLinearLayout extends LinearLayout {
 
     //@Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public Insets getOpticalInsets() {
         return InsetsCompat.NONE;
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {

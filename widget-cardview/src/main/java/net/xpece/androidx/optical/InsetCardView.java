@@ -3,14 +3,14 @@ package net.xpece.androidx.optical;
 import android.content.Context;
 import android.graphics.Insets;
 import android.os.Build;
+import android.util.AttributeSet;
+import android.util.Log;
+
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.cardview.widget.CardView;
-import android.util.AttributeSet;
-import android.util.Log;
 
 public class InsetCardView extends CardView {
 
@@ -43,7 +43,6 @@ public class InsetCardView extends CardView {
 
     //@Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public Insets getOpticalInsets() {
         if (mOpticalInsets == null) {
@@ -67,7 +66,6 @@ public class InsetCardView extends CardView {
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {

@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
 @SuppressLint("NewApi")
@@ -46,15 +45,6 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
     }
 
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (SDK_INT < 18) {
-            mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
-        } else {
-            onMeasureSpecial(widthMeasureSpec, heightMeasureSpec);
-        }
-    }
-
-    @RequiresApi(18)
-    private void onMeasureSpecial(int widthMeasureSpec, int heightMeasureSpec) {
         matchParentLayoutMode = true;
         try {
             mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -119,15 +109,6 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
     }
 
     public void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (SDK_INT < 18) {
-            mSpinner.superOnLayout(changed, l, t, r, b);
-        } else {
-            onLayoutSpecial(changed, l, t, r, b);
-        }
-    }
-
-    @RequiresApi(18)
-    private void onLayoutSpecial(boolean changed, int l, int t, int r, int b) {
         if (getLayoutMode() == LAYOUT_MODE_OPTICAL_BOUNDS) {
             onLayoutInOpticalBoundsMode(changed, l, t, r, b);
         } else {
@@ -135,7 +116,6 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         }
     }
 
-    @RequiresApi(18)
     private void onLayoutInOpticalBoundsMode(boolean changed, int l, int t, int r, int b) {
         mSpinner.superOnLayout(changed, l, t, r, b);
         final View v = mSpinner.getChildAt(0);
@@ -148,7 +128,6 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         }
     }
 
-    @RequiresApi(18)
     private void onLayoutInClipBoundsMode(boolean changed, int l, int t, int r, int b) {
         mSpinner.superOnLayout(changed, l, t, r, b);
         if (getLayoutMode() != getParentLayoutMode()) {
@@ -160,7 +139,6 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         }
     }
 
-    @RequiresApi(18)
     public boolean isLayoutModeOptical() {
         if (matchParentLayoutMode) {
             return getParentLayoutMode() == LAYOUT_MODE_OPTICAL_BOUNDS;
@@ -169,12 +147,10 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         }
     }
 
-    @RequiresApi(18)
     private int getParentLayoutMode() {
         return ((ViewGroup) mSpinner.getParent()).getLayoutMode();
     }
 
-    @RequiresApi(18)
     private int getLayoutMode() {
         return mSpinner.getLayoutMode();
     }

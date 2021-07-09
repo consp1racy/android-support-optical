@@ -2,14 +2,13 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.RestrictTo;
-import androidx.appcompat.widget.AppCompatEditText;
-
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.AppCompatEditText;
 
 public class InsetAppCompatEditText extends AppCompatEditText {
 
@@ -41,7 +40,6 @@ public class InsetAppCompatEditText extends AppCompatEditText {
 
     //@Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
@@ -49,7 +47,6 @@ public class InsetAppCompatEditText extends AppCompatEditText {
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {

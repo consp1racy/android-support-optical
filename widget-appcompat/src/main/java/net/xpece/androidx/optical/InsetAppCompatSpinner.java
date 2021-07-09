@@ -3,14 +3,13 @@ package net.xpece.androidx.optical;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Insets;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.RestrictTo;
-import androidx.appcompat.widget.AppCompatSpinner;
-
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 public class InsetAppCompatSpinner extends AppCompatSpinner implements SpinnerHelper.Delegate {
 
@@ -46,7 +45,6 @@ public class InsetAppCompatSpinner extends AppCompatSpinner implements SpinnerHe
 
     @Override
     @NonNull
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
@@ -54,7 +52,6 @@ public class InsetAppCompatSpinner extends AppCompatSpinner implements SpinnerHe
     }
 
     //@Override
-    @RequiresApi(16)
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @SuppressWarnings("unused")
     public void setOpticalInsets(@NonNull Insets insets) {
@@ -88,7 +85,6 @@ public class InsetAppCompatSpinner extends AppCompatSpinner implements SpinnerHe
         super.onLayout(changed, l, t, r, b);
     }
 
-    @RequiresApi(18)
     @SuppressWarnings("unused")
     boolean isLayoutModeOptical() {
         return mSpinnerHelper.isLayoutModeOptical();

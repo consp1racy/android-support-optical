@@ -19,7 +19,6 @@ import androidx.annotation.RestrictTo;
  * <p>
  * Insets are immutable so may be treated as values.
  */
-@RequiresApi(16)
 @TargetApi(29)
 @SuppressWarnings("unused")
 public final class InsetsCompat {

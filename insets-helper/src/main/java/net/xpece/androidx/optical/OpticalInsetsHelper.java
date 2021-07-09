@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 /**
  * Helper class for making views aware of optical insets
@@ -14,7 +13,6 @@ import androidx.annotation.RequiresApi;
  * and {@link android.graphics.drawable.LayerDrawable LayerDrawable} (including children
  * such as {@link android.graphics.drawable.RippleDrawable RippleDrawable}) on all API levels.
  */
-@RequiresApi(16)
 public final class OpticalInsetsHelper {
 
     private final View view;
