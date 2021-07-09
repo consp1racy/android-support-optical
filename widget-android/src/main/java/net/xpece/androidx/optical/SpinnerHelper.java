@@ -26,15 +26,10 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
 
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (SDK_INT < 18) {
-            onMeasureDefault(widthMeasureSpec, heightMeasureSpec);
+            mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
         } else {
             onMeasureSpecial(widthMeasureSpec, heightMeasureSpec);
         }
-    }
-
-    @SuppressLint("WrongCall")
-    private void onMeasureDefault(int widthMeasureSpec, int heightMeasureSpec) {
-        mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @RequiresApi(18)
@@ -43,29 +38,64 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         try {
             mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            final int layoutMode = getLayoutMode();
-            if (layoutMode == LAYOUT_MODE_OPTICAL_BOUNDS && layoutMode == getParentLayoutMode()) {
-                final Insets insets = mSpinner.getOpticalInsets();
-                int adjustWidth = -(insets.left + insets.right);
-                int adjustHeight = -(insets.top + insets.bottom);
-                mSpinner.doSetMeasuredDimension(mSpinner.getMeasuredWidth() + adjustWidth,
-                        mSpinner.getMeasuredHeight() + adjustHeight);
+            if (shouldCompensateOpticalBoundsLayoutMode()) {
+                compensateOpticalBoundsLayoutMode();
+            } else if (shouldCompensateClipBoundsLayoutMode()) {
+                compensateClipBoundsLayoutMode();
             }
         } finally {
             matchParentLayoutMode = false;
         }
     }
 
+    private boolean shouldCompensateOpticalBoundsLayoutMode() {
+        final int layoutMode = getLayoutMode();
+        return layoutMode == LAYOUT_MODE_OPTICAL_BOUNDS && layoutMode == getParentLayoutMode();
+    }
+
+    private void compensateOpticalBoundsLayoutMode() {
+        final Insets insets = mSpinner.getOpticalInsets();
+        int adjustWidth = -(insets.left + insets.right);
+        int adjustHeight = -(insets.top + insets.bottom);
+        resetMeasuredDimension(adjustWidth, adjustHeight);
+    }
+
+    private void resetMeasuredDimension(int adjustWidth, int adjustHeight) {
+        mSpinner.doSetMeasuredDimension(mSpinner.getMeasuredWidth() + adjustWidth,
+                mSpinner.getMeasuredHeight() + adjustHeight);
+    }
+
+    private boolean shouldCompensateClipBoundsLayoutMode() {
+        final int layoutMode = getLayoutMode();
+        return layoutMode != LAYOUT_MODE_OPTICAL_BOUNDS && layoutMode != getParentLayoutMode();
+    }
+
+    private void compensateClipBoundsLayoutMode() {
+        final Insets insets = mSpinner.getOpticalInsets();
+        int adjustWidth = -(insets.left + insets.right);
+        int adjustHeight = -(insets.top + insets.bottom);
+        if (SDK_INT >= 21) {
+            adjustWidth = -adjustWidth;
+            adjustHeight = -adjustHeight * 2;
+        }
+        resetMeasuredDimension(adjustWidth, adjustHeight);
+    }
+
     public void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (SDK_INT < 18 || getLayoutMode() != LAYOUT_MODE_OPTICAL_BOUNDS) {
-            onLayoutInClipBoundsMode(changed, l, t, r, b);
+        if (SDK_INT < 18) {
+            mSpinner.superOnLayout(changed, l, t, r, b);
         } else {
-            onLayoutInOpticalBoundsMode(changed, l, t, r, b);
+            onLayoutSpecial(changed, l, t, r, b);
         }
     }
 
-    private void onLayoutInClipBoundsMode(boolean changed, int l, int t, int r, int b) {
-        mSpinner.superOnLayout(changed, l, t, r, b);
+    @RequiresApi(18)
+    private void onLayoutSpecial(boolean changed, int l, int t, int r, int b) {
+        if (getLayoutMode() == LAYOUT_MODE_OPTICAL_BOUNDS) {
+            onLayoutInOpticalBoundsMode(changed, l, t, r, b);
+        } else {
+            onLayoutInClipBoundsMode(changed, l, t, r, b);
+        }
     }
 
     @RequiresApi(18)
@@ -77,6 +107,18 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
             v.offsetLeftAndRight(-insets.left);
             if (getLayoutMode() != getParentLayoutMode()) {
                 v.offsetTopAndBottom(-insets.top);
+            }
+        }
+    }
+
+    @RequiresApi(18)
+    private void onLayoutInClipBoundsMode(boolean changed, int l, int t, int r, int b) {
+        mSpinner.superOnLayout(changed, l, t, r, b);
+        if (getLayoutMode() != getParentLayoutMode()) {
+            final View v = mSpinner.getChildAt(0);
+            if (v != null) {
+                final Insets insets = mSpinner.getOpticalInsets();
+                v.offsetTopAndBottom(insets.top);
             }
         }
     }
