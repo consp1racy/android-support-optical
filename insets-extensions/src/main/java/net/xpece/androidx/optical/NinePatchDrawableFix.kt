@@ -79,12 +79,15 @@ private object DrawableContainerReflection {
 
 @SuppressLint("NewApi")
 private fun NinePatchDrawable.fixInsets() {
-    if (InsetsCompat.NONE == opticalInsets && NinePatchReflection.hasNinePatch(this)) {
+    if (opticalInsets == InsetsCompat.NONE && NinePatchReflection.hasNinePatch(this)) {
         val state = NinePatchReflection.getState(this)
         val bitmap = NinePatchReflection.getBitmap(state)
         val insets = NinePatchReflection.getOpticalInsets(bitmap)
-        NinePatchReflection.setOpticalInsets(state, insets)
-        NinePatchReflection.computeBitmapSize(this)
+        if (insets != InsetsCompat.NONE) {
+            mutate()
+            NinePatchReflection.setOpticalInsets(state, insets)
+            NinePatchReflection.computeBitmapSize(this)
+        }
     }
 }
 

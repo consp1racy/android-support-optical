@@ -16,14 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
-import kotlin.Suppress;
-
 @SuppressLint("NewApi")
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
 
-    private static final int [] ATTRS = new int[] {
-        android.R.attr.clipToPadding
+    private static final int[] ATTRS = new int[]{
+            android.R.attr.clipToPadding
     };
 
     private final T mSpinner;
@@ -70,7 +68,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         Insets insets = mSpinner.getOpticalInsets();
         int adjustWidth = -(insets.left + insets.right);
         int adjustHeight = -(insets.top + insets.bottom);
-        final View v = mSpinner.getChildAt(0);
+        final View v = mSpinner.getSelectedView();
         if (v != null) {
             insets = getOpticalInsetsCompat(v);
             adjustWidth -= insets.left + insets.right;
