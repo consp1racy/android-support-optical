@@ -68,7 +68,10 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         Insets insets = mSpinner.getOpticalInsets();
         int adjustWidth = -(insets.left + insets.right);
         int adjustHeight = -(insets.top + insets.bottom);
-        final View v = mSpinner.getSelectedView();
+        View v = mSpinner.getSelectedView();
+        if (v == null) {
+            v = mSpinner.getAdapter().getView(mSpinner.getSelectedItemPosition(), null, mSpinner);
+        }
         if (v != null) {
             insets = getOpticalInsetsCompat(v);
             adjustWidth -= insets.left + insets.right;
