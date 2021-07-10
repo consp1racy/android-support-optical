@@ -17,11 +17,17 @@ fun Drawable.fixNinePatchInsets() {
 
     when (this) {
         is DrawableContainer -> {
-            flatten()
+            val drawables = flatten().toList()
+            drawables
                 .filterIsInstance<NinePatchDrawable>()
-                .forEach { it.fixInsets() }
-            selectDrawable(-1)
-            selectDrawable(DrawableContainerReflection.getCurrentIndex(this))
+                .forEach(NinePatchDrawable::fixInsets)
+            drawables
+                .filterIsInstance<DrawableContainer>()
+                .forEach {
+                    val i = DrawableContainerReflection.getCurrentIndex(it)
+                    it.selectDrawable(-1)
+                    it.selectDrawable(i)
+                }
         }
         is NinePatchDrawable -> {
             fixInsets()
@@ -30,7 +36,7 @@ fun Drawable.fixNinePatchInsets() {
 }
 
 private fun DrawableContainer.flatten(): Sequence<Drawable> {
-    return drawables().flatMap {
+    return sequenceOf(this) + drawables().flatMap {
         when (it) {
             is DrawableContainer -> flatten()
             else -> sequenceOf(it)
@@ -80,11 +86,12 @@ private object DrawableContainerReflection {
 @SuppressLint("NewApi")
 private fun NinePatchDrawable.fixInsets() {
     if (opticalInsets == InsetsCompat.NONE && NinePatchReflection.hasNinePatch(this)) {
-        val state = NinePatchReflection.getState(this)
+        var state = NinePatchReflection.getState(this)
         val bitmap = NinePatchReflection.getBitmap(state)
         val insets = NinePatchReflection.getOpticalInsets(bitmap)
         if (insets != InsetsCompat.NONE) {
             mutate()
+            state = NinePatchReflection.getState(this)
             NinePatchReflection.setOpticalInsets(state, insets)
             NinePatchReflection.computeBitmapSize(this)
         }
