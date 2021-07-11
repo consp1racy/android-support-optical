@@ -3,8 +3,6 @@
 package net.xpece.androidx.optical
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Insets
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableContainer
 import android.graphics.drawable.NinePatchDrawable
@@ -50,33 +48,11 @@ private fun DrawableContainer.flatten(): Sequence<Drawable> {
 
 @SuppressLint("DiscouragedPrivateApi")
 private fun DrawableContainer.drawables(): Sequence<Drawable> {
-    val state = DrawableContainerReflection.getState(this)
-    val drawables = DrawableContainerReflection.getDrawables(state)
-    return drawables.asSequence().filterNotNull()
+    return DrawableContainerIterator(this).asSequence()
 }
 
 @SuppressLint("SoonBlockedPrivateApi", "DiscouragedPrivateApi")
 private object DrawableContainerReflection {
-
-    private val drawableContainerState = DrawableContainer::class.java
-        .getDeclaredField("mDrawableContainerState")
-        .apply { isAccessible = true }
-
-    fun getState(drawable: DrawableContainer): Any {
-        return drawableContainerState.get(drawable) as Any
-    }
-
-    private val drawableContainerStateClass =
-        Class.forName("android.graphics.drawable.DrawableContainer\$DrawableContainerState")
-
-    private val drawables = drawableContainerStateClass
-        .getDeclaredField("mDrawables")
-        .apply { isAccessible = true }
-
-    @Suppress("UNCHECKED_CAST")
-    fun getDrawables(state: Any): Array<Drawable?> {
-        return drawables.get(state) as Array<Drawable?>
-    }
 
     private val curIndex = DrawableContainer::class.java
         .getDeclaredField("mCurIndex")
