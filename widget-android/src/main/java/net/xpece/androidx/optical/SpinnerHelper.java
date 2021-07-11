@@ -80,13 +80,12 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         resetMeasuredDimension(adjustWidth, adjustHeight);
     }
 
-    @SuppressWarnings("deprecation")
     private Insets getOpticalInsetsCompat(@NonNull View v) {
         Insets insets;
         try {
-            insets = OpticalInsets.getOpticalInsets(v);
-        } catch (Throwable ignore) {
-            insets = OpticalInsets.getOpticalInsetsCompat(v.getBackground());
+            insets = ViewInsets.getOpticalInsets(v);
+        } catch (NoSuchMethodException ignore) {
+            insets = DrawableInsets.getOpticalInsets(v.getBackground());
         }
         return insets;
     }

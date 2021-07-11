@@ -15,23 +15,27 @@ import android.os.Build.VERSION.SDK_INT
 fun Drawable.fixNinePatchInsets() {
     if (SDK_INT >= 21) return
 
-    when (this) {
-        is DrawableContainer -> {
-            val drawables = flatten().toList()
-            drawables
-                .filterIsInstance<NinePatchDrawable>()
-                .forEach(NinePatchDrawable::fixInsets)
-            drawables
-                .filterIsInstance<DrawableContainer>()
-                .forEach {
-                    val i = DrawableContainerReflection.getCurrentIndex(it)
-                    it.selectDrawable(-1)
-                    it.selectDrawable(i)
-                }
+    try {
+        when (this) {
+            is DrawableContainer -> {
+                val drawables = flatten().toList()
+                drawables.asSequence()
+                    .filterIsInstance<NinePatchDrawable>()
+                    .forEach(NinePatchDrawable::fixInsets)
+                drawables.asSequence()
+                    .filterIsInstance<DrawableContainer>()
+                    .forEach {
+                        val i = DrawableContainerReflection.getCurrentIndex(it)
+                        it.selectDrawable(-1)
+                        it.selectDrawable(i)
+                    }
+            }
+            is NinePatchDrawable -> {
+                fixInsets()
+            }
         }
-        is NinePatchDrawable -> {
-            fixInsets()
-        }
+    } catch (ex: Throwable) {
+        ex.printStackTrace() // TODO
     }
 }
 

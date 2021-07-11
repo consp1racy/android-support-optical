@@ -5,7 +5,7 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationBarView
-import net.xpece.androidx.optical.getOpticalInsetsCompat
+import net.xpece.androidx.optical.DrawableInsets
 import net.xpece.androidx.optical.sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +50,6 @@ class MainActivity : AppCompatActivity() {
             binding.navigation.selectedItemId = R.id.navigation_wrong
         }
 
-        LayerDrawable(arrayOf(ColorDrawable(0))).getOpticalInsetsCompat()
+        DrawableInsets.getOpticalInsets(LayerDrawable(arrayOf(ColorDrawable(0))))
     }
 }
