@@ -8,18 +8,17 @@ import android.graphics.drawable.InsetDrawable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
 
 @SuppressLint("NewApi")
 final class InsetDrawableInsets {
 
-    private static final Delegate IMPL;
+    private static final DrawableInsets.Delegate<InsetDrawable> IMPL;
 
     static {
         if (SDK_INT >= 21) {
-            IMPL = new Api21();
+            IMPL = DrawableInsets.Delegate.getDefault();
         } else {
             IMPL = new Api18();
         }
@@ -36,15 +35,9 @@ final class InsetDrawableInsets {
     private InsetDrawableInsets() {
     }
 
-    private interface Delegate {
-
-        @NonNull
-        Insets getOpticalInsets(@NonNull InsetDrawable d);
-    }
-
     @SuppressWarnings({"rawtypes", "JavaReflectionMemberAccess"})
     @SuppressLint({"DiscouragedPrivateApi", "PrivateApi", "SoonBlockedPrivateApi"})
-    private static class Api18 implements Delegate {
+    private static final class Api18 implements DrawableInsets.Delegate<InsetDrawable> {
 
         private static final boolean REFLECTION_RESOLVED;
         private static final Field FIELD_INSET_STATE;
@@ -114,19 +107,6 @@ final class InsetDrawableInsets {
                 e.printStackTrace(); // TODO
                 return d.getOpticalInsets();
             }
-        }
-    }
-
-    @RequiresApi(21)
-    private static class Api21 implements Delegate {
-
-        private Api21() {
-        }
-
-        @NonNull
-        @Override
-        public Insets getOpticalInsets(@NonNull InsetDrawable d) {
-            return d.getOpticalInsets();
         }
     }
 }

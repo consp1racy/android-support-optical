@@ -7,6 +7,7 @@ import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
@@ -29,5 +30,32 @@ public final class DrawableInsets {
     }
 
     private DrawableInsets() {
+    }
+
+    interface Delegate<D extends Drawable> {
+
+        @NonNull
+        Insets getOpticalInsets(@NonNull D d);
+
+        @SuppressWarnings("unchecked")
+        static <D extends Drawable> Delegate<D> getDefault() {
+            return DefaultDelegate.INSTANCE;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    @SuppressLint("NewApi")
+    private static class DefaultDelegate implements Delegate {
+
+        static final Delegate INSTANCE = new DefaultDelegate();
+
+        private DefaultDelegate() {
+        }
+
+        @NonNull
+        @Override
+        public Insets getOpticalInsets(@NonNull Drawable drawable) {
+            return drawable.getOpticalInsets();
+        }
     }
 }

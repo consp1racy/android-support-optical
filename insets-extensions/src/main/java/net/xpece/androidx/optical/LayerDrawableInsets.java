@@ -16,7 +16,7 @@ import java.util.Arrays;
 @SuppressLint("NewApi")
 final class LayerDrawableInsets {
 
-    private static final Delegate IMPL;
+    private static final DrawableInsets.Delegate<LayerDrawable> IMPL;
 
     static {
         if (SDK_INT >= 23) {
@@ -37,13 +37,7 @@ final class LayerDrawableInsets {
     private LayerDrawableInsets() {
     }
 
-    private interface Delegate {
-
-        @NonNull
-        Insets getOpticalInsets(@NonNull LayerDrawable d);
-    }
-
-    private abstract static class BaseDelegate implements Delegate {
+    private abstract static class BaseDelegate implements DrawableInsets.Delegate<LayerDrawable> {
 
         @NonNull
         @Override
@@ -62,7 +56,7 @@ final class LayerDrawableInsets {
 
     @SuppressWarnings({"rawtypes", "JavaReflectionMemberAccess"})
     @SuppressLint({"DiscouragedPrivateApi", "PrivateApi", "SoonBlockedPrivateApi"})
-    private static class Api18 extends BaseDelegate {
+    private static final class Api18 extends BaseDelegate {
 
         private static final boolean REFLECTION_RESOLVED;
         private static final Field FIELD_LAYER_STATE;
@@ -150,7 +144,7 @@ final class LayerDrawableInsets {
     }
 
     @RequiresApi(23)
-    private static class Api23 extends BaseDelegate {
+    private static final class Api23 extends BaseDelegate {
 
         private Api23() {
         }

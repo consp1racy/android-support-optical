@@ -9,7 +9,6 @@ import android.graphics.drawable.NinePatchDrawable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
 import java.lang.reflect.Field;
@@ -20,11 +19,11 @@ import java.lang.reflect.Method;
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public final class NinePatchDrawableInsets {
 
-    private static final Delegate IMPL;
+    private static final DrawableInsets.Delegate<NinePatchDrawable> IMPL;
 
     static {
         if (SDK_INT >= 21) {
-            IMPL = new Api21();
+            IMPL = DrawableInsets.Delegate.getDefault();
         } else {
             IMPL = new Api18();
         }
@@ -41,15 +40,9 @@ public final class NinePatchDrawableInsets {
     private NinePatchDrawableInsets() {
     }
 
-    private interface Delegate {
-
-        @NonNull
-        Insets getOpticalInsets(@NonNull NinePatchDrawable d);
-    }
-
     @SuppressWarnings({"rawtypes", "JavaReflectionMemberAccess"})
     @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi", "PrivateApi"})
-    private static class Api18 implements Delegate {
+    private static final class Api18 implements DrawableInsets.Delegate<NinePatchDrawable> {
 
         private static final boolean REFLECTION_RESOLVED;
         private static final Field FIELD_NINE_PATCH;
@@ -173,19 +166,6 @@ public final class NinePatchDrawableInsets {
                 }
             }
             return insets;
-        }
-    }
-
-    @RequiresApi(21)
-    private static class Api21 implements Delegate {
-
-        private Api21() {
-        }
-
-        @NonNull
-        @Override
-        public Insets getOpticalInsets(@NonNull NinePatchDrawable d) {
-            return d.getOpticalInsets();
         }
     }
 }
