@@ -5,6 +5,7 @@ import android.graphics.Insets;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.NinePatchDrawable;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -20,6 +21,8 @@ public final class DrawableInsets {
             return InsetDrawableInsets.getOpticalInsets((InsetDrawable) d);
         } else if (d instanceof LayerDrawable) {
             return LayerDrawableInsets.getOpticalInsets((LayerDrawable) d);
+        } else if (d instanceof NinePatchDrawable) {
+            return NinePatchDrawableInsets.getOpticalInsets((NinePatchDrawable) d);
         } else {
             return d.getOpticalInsets();
         }

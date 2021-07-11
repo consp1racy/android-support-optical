@@ -21,7 +21,7 @@ fun Drawable.fixNinePatchInsets() {
                 val drawables = flatten().toList()
                 drawables.asSequence()
                     .filterIsInstance<NinePatchDrawable>()
-                    .forEach(NinePatchDrawable::fixInsets)
+                    .forEach { NinePatchDrawableInsets.getOpticalInsets(it) }
                 drawables.asSequence()
                     .filterIsInstance<DrawableContainer>()
                     .forEach {
@@ -31,7 +31,7 @@ fun Drawable.fixNinePatchInsets() {
                     }
             }
             is NinePatchDrawable -> {
-                fixInsets()
+                NinePatchDrawableInsets.getOpticalInsets(this)
             }
         }
     } catch (ex: Throwable) {
@@ -84,80 +84,5 @@ private object DrawableContainerReflection {
 
     fun getCurrentIndex(drawable: DrawableContainer): Int {
         return curIndex.getInt(drawable)
-    }
-}
-
-@SuppressLint("NewApi")
-private fun NinePatchDrawable.fixInsets() {
-    if (opticalInsets == InsetsCompat.NONE && NinePatchReflection.hasNinePatch(this)) {
-        var state = NinePatchReflection.getState(this)
-        val bitmap = NinePatchReflection.getBitmap(state)
-        val insets = NinePatchReflection.getOpticalInsets(bitmap)
-        if (insets != InsetsCompat.NONE) {
-            mutate()
-            state = NinePatchReflection.getState(this)
-            NinePatchReflection.setOpticalInsets(state, insets)
-            NinePatchReflection.computeBitmapSize(this)
-        }
-    }
-}
-
-@SuppressLint("SoonBlockedPrivateApi", "DiscouragedPrivateApi", "PrivateApi")
-private object NinePatchReflection {
-
-    private val ninePatch = NinePatchDrawable::class.java
-        .getDeclaredField("mNinePatch")
-        .apply { isAccessible = true }
-
-    fun hasNinePatch(drawable: NinePatchDrawable): Boolean {
-        return ninePatch.get(drawable) != null
-    }
-
-    private val ninePatchState = NinePatchDrawable::class.java
-        .getDeclaredField("mNinePatchState")
-        .apply { isAccessible = true }
-
-    fun getState(drawable: NinePatchDrawable): Any {
-        return ninePatchState.get(drawable) as Any
-    }
-
-    private val ninePatchStateClass =
-        Class.forName("android.graphics.drawable.NinePatchDrawable\$NinePatchState")
-
-    private val getBitmap = ninePatchStateClass
-        .getDeclaredMethod("getBitmap")
-        .apply { isAccessible = true }
-
-    fun getBitmap(state: Any): Bitmap {
-        return getBitmap.invoke(state) as Bitmap
-    }
-
-    private val getLayoutBounds = Bitmap::class.java
-        .getDeclaredMethod("getLayoutBounds")
-        .apply { isAccessible = true }
-
-    fun getOpticalInsets(bitmap: Bitmap): Insets {
-        // https://github.com/aosp-mirror/platform_frameworks_base/blob/c46c4a6765196bcabf3ea89771a1f9067b22baad/graphics/java/android/graphics/drawable/Drawable.java#L847
-        return (getLayoutBounds.invoke(bitmap) as IntArray?)
-            ?.let { InsetsCompat.of(it[0], it[1], it[2], it[3]) }
-            ?: InsetsCompat.NONE
-    }
-
-    private val opticalInsets = ninePatchStateClass
-        .getDeclaredField("mOpticalInsets")
-        .apply { isAccessible = true }
-
-    fun setOpticalInsets(state: Any, insets: Insets) {
-        // https://github.com/aosp-mirror/platform_frameworks_base/blob/c46c4a6765196bcabf3ea89771a1f9067b22baad/graphics/java/android/graphics/drawable/NinePatchDrawable.java#L370
-        opticalInsets.set(state, insets)
-    }
-
-    private val computeBitmapSize = NinePatchDrawable::class.java
-        .getDeclaredMethod("computeBitmapSize")
-        .apply { isAccessible = true }
-
-    fun computeBitmapSize(drawable: NinePatchDrawable) {
-        // https://github.com/aosp-mirror/platform_frameworks_base/blob/c46c4a6765196bcabf3ea89771a1f9067b22baad/graphics/java/android/graphics/drawable/NinePatchDrawable.java#L194
-        computeBitmapSize.invoke(drawable)
     }
 }
