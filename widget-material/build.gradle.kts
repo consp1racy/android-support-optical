@@ -20,12 +20,12 @@ android {
 }
 
 dependencies {
-    compileOnly(project(":widget-cardview"))
+    compileOnly(projects.widgetCardview)
 
-    implementation(project(":insets"))
-    implementation(project(":insets-helper"))
+    implementation(projects.insets)
+    implementation(projects.insetsHelper)
 
-    api(project(":widget-appcompat"))
+    api(projects.widgetAppcompat)
 
     implementation("androidx.annotation:annotation:1.2.0")
 

@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":insets")
 include(":insets-extensions")
 include(":insets-helper")

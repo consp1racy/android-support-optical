@@ -39,16 +39,16 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.vectordrawable:vectordrawable:1.1.0")
 
-    implementation(project(":widget-android"))
-    implementation(project(":widget-cardview"))
-    implementation(project(":widget-material"))
-    implementation(project(":root-android-layout"))
+    implementation(projects.widgetAndroid)
+    implementation(projects.widgetCardview)
+    implementation(projects.widgetMaterial)
+    implementation(projects.rootAndroidLayout)
 
-    implementation(project(":insets"))
+    implementation(projects.insets)
 
-    implementation(project(":insets-extensions"))
+    implementation(projects.insetsExtensions)
 
-    implementation(project(":insets-helper"))
+    implementation(projects.insetsHelper)
 
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 }

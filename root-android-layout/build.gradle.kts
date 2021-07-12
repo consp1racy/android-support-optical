@@ -13,8 +13,8 @@ android {
 }
 
 dependencies {
-    api(project(":root-frame-layout"))
-    api(project(":root-linear-layout"))
+    api(projects.rootFrameLayout)
+    api(projects.rootLinearLayout)
 }
 
 version = "1.0.1"

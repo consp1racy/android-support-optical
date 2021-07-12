@@ -13,14 +13,14 @@ android {
 }
 
 dependencies {
-    compileOnly(project(":widget-cardview"))
+    compileOnly(projects.widgetCardview)
 
-    implementation(project(":insets"))
-    implementation(project(":insets-helper"))
+    implementation(projects.insets)
+    implementation(projects.insetsHelper)
 
     implementation("androidx.annotation:annotation:1.2.0")
 
-    api(project(":widget-android"))
+    api(projects.widgetAndroid)
 
     api("androidx.appcompat:appcompat:1.3.0")
 
