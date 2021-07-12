@@ -3,6 +3,7 @@ package net.xpece.androidx.optical;
 import android.annotation.SuppressLint;
 import android.graphics.Insets;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -26,6 +27,14 @@ public final class DrawableInsets {
             return NinePatchDrawableInsets.getOpticalInsets((NinePatchDrawable) d);
         } else {
             return d.getOpticalInsets();
+        }
+    }
+
+    public static void fixNinePatchInsets(@Nullable Drawable d) {
+        if (d instanceof DrawableContainer) {
+            DrawableContainerInsets.fixNinePatchInsets((DrawableContainer) d);
+        } else if (d instanceof NinePatchDrawable) {
+            NinePatchDrawableInsets.fixNinePatchInsets((NinePatchDrawable) d);
         }
     }
 

@@ -50,8 +50,6 @@ public final class OpticalInsetsHelper {
     }
 
     public void onSetBackground(@Nullable Drawable background) {
-        if (background != null) {
-            NinePatchDrawableFix.fixInsets(background);
-        }
+        DrawableInsets.fixNinePatchInsets(background);
     }
 }

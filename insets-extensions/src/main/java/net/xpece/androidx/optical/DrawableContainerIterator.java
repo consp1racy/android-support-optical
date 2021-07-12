@@ -18,12 +18,12 @@ final class DrawableContainerIterator implements Iterator<Drawable> {
 
     private static final Field FIELD_STATE;
     private static final Field FIELD_DRAWABLES;
-    private static final boolean RESOLVED_REFLECTION;
+    private static final boolean REFLECTION_RESOLVED;
 
     static {
         Field fieldState = null;
         Field fieldDrawables = null;
-        boolean resolvedReflection = false;
+        boolean reflectionResolved = false;
         try {
             fieldState = DrawableContainer.class
                     .getDeclaredField("mDrawableContainerState");
@@ -35,19 +35,19 @@ final class DrawableContainerIterator implements Iterator<Drawable> {
                     .getDeclaredField("mDrawables");
             fieldDrawables.setAccessible(true);
 
-            resolvedReflection = true;
+            reflectionResolved = true;
         } catch (Exception e) {
             e.printStackTrace(); // TODO
         }
         FIELD_STATE = fieldState;
         FIELD_DRAWABLES = fieldDrawables;
-        RESOLVED_REFLECTION = resolvedReflection;
+        REFLECTION_RESOLVED = reflectionResolved;
     }
 
     @Nullable
     private static Drawable[] getDrawables(@NonNull DrawableContainer drawable) {
         Drawable[] drawables = EMPTY_ARRAY;
-        if (RESOLVED_REFLECTION) {
+        if (REFLECTION_RESOLVED) {
             try {
                 final Object state = FIELD_STATE.get(drawable);
                 drawables = (Drawable[]) FIELD_DRAWABLES.get(state);

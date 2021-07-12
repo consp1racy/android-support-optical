@@ -16,8 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @SuppressLint("NewApi")
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public final class NinePatchDrawableInsets {
+final class NinePatchDrawableInsets {
 
     private static final DrawableInsets.Delegate<NinePatchDrawable> IMPL;
 
@@ -35,6 +34,10 @@ public final class NinePatchDrawableInsets {
         } else {
             return InsetsCompat.NONE;
         }
+    }
+
+    public static void fixNinePatchInsets(@Nullable NinePatchDrawable d) {
+        getOpticalInsets(d);
     }
 
     private NinePatchDrawableInsets() {
