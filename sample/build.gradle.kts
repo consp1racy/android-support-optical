@@ -42,7 +42,7 @@ dependencies {
     implementation(project(":widget-android"))
     implementation(project(":widget-cardview"))
     implementation(project(":widget-material"))
-    implementation(project(":root-linear-layout"))
+    implementation(project(":root-android-layout"))
 
     implementation(project(":insets"))
 
@@ -50,5 +50,5 @@ dependencies {
 
     implementation(project(":insets-helper"))
 
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
 }
