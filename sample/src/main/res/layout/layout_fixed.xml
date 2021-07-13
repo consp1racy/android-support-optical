@@ -11,5 +11,5 @@
     android:padding="8dp"
     >
 
-    <include layout="@layout/layout_content" />
+    <include layout="@layout/layout_content_match_parent" />
 </net.xpece.androidx.optical.RootLinearLayout>

@@ -9,7 +9,6 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 
 /**
@@ -79,7 +78,8 @@ public final class InsetsCompat {
 
     @SuppressLint("NewApi")
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    static Insets union(final @NonNull Insets... insets) {
+    @NonNull
+    public static Insets union(final @NonNull Insets... insets) {
         int left = 0, top = 0, right = 0, bottom = 0;
         for (final Insets i : insets) {
             left = Math.max(left, i.left);

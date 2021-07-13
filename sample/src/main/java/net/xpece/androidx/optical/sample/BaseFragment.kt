@@ -13,7 +13,7 @@ abstract class BaseFragment : Fragment() {
 
         val adapter = ArrayAdapter(
             view.context,
-            R.layout.item_button_disabled,
+            R.layout.item_item,
             listOf("Optical Layout")
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

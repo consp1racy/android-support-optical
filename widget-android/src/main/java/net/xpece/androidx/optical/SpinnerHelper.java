@@ -1,6 +1,8 @@
 package net.xpece.androidx.optical;
 
 import static android.os.Build.VERSION.SDK_INT;
+import static android.view.View.MeasureSpec;
+import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.ViewGroup.LAYOUT_MODE_OPTICAL_BOUNDS;
 
 import android.annotation.SuppressLint;
@@ -50,7 +52,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
             mSpinner.superOnMeasure(widthMeasureSpec, heightMeasureSpec);
 
             if (shouldCompensateOpticalBoundsLayoutMode()) {
-                compensateOpticalBoundsLayoutMode();
+                compensateOpticalBoundsLayoutMode(widthMeasureSpec, heightMeasureSpec);
             } else if (shouldCompensateClipBoundsLayoutMode()) {
                 compensateClipBoundsLayoutMode();
             }
@@ -64,20 +66,52 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         return layoutMode == LAYOUT_MODE_OPTICAL_BOUNDS && layoutMode == getParentLayoutMode();
     }
 
-    private void compensateOpticalBoundsLayoutMode() {
-        Insets insets = mSpinner.getOpticalInsets();
-        int adjustWidth = -(insets.left + insets.right);
-        int adjustHeight = -(insets.top + insets.bottom);
+    private void compensateOpticalBoundsLayoutMode(int widthMeasureSpec, int heightMeasureSpec) {
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        if (widthMode == EXACTLY && heightMode == EXACTLY) {
+            return;
+        }
+
+        int adjustWidth = 0;
+        int adjustHeight = 0;
+
+        final Insets insets = mSpinner.getOpticalInsets();
+        if (widthMode != EXACTLY) {
+            adjustWidth -= insets.left + insets.right;
+        }
+        if (heightMode != EXACTLY) {
+            adjustHeight -= insets.top + insets.bottom;
+        }
+
         View v = mSpinner.getSelectedView();
         if (v == null) {
             v = mSpinner.getAdapter().getView(mSpinner.getSelectedItemPosition(), null, mSpinner);
         }
         if (v != null) {
-            insets = getOpticalInsetsCompat(v);
-            adjustWidth -= insets.left + insets.right;
-            adjustHeight -= insets.top + insets.bottom;
+            final Insets childInsets = getOpticalInsetsCompat(v);
+            if (widthMode != EXACTLY) {
+                adjustWidth -= childInsets.left + childInsets.right;
+            }
+            if (heightMode != EXACTLY) {
+                adjustHeight -= childInsets.top + childInsets.bottom;
+            }
         }
+
         resetMeasuredDimension(adjustWidth, adjustHeight);
+
+        // Fix child dimensions with MATCH_PARENT width/height.
+        if (widthMode == EXACTLY) {
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(
+                    MeasureSpec.getSize(widthMeasureSpec) + insets.left + insets.right,
+                    EXACTLY);
+        }
+        if (heightMode == EXACTLY) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                    MeasureSpec.getSize(heightMeasureSpec) + insets.top + insets.bottom,
+                    EXACTLY);
+        }
+        AbsSpinnerReflection.setMeasureSpecs(mSpinner, widthMeasureSpec, heightMeasureSpec);
     }
 
     private Insets getOpticalInsetsCompat(@NonNull View v) {
@@ -106,7 +140,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         int adjustHeight = -(insets.top + insets.bottom);
         if (SDK_INT >= 21) {
             adjustWidth = -adjustWidth;
-            adjustHeight = -adjustHeight * 2;
+            adjustHeight = -adjustHeight;
         }
         resetMeasuredDimension(adjustWidth, adjustHeight);
     }
@@ -123,7 +157,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
         mSpinner.superOnLayout(changed, l, t, r, b);
         final View v = mSpinner.getChildAt(0);
         if (v != null) {
-            Insets insets = mSpinner.getOpticalInsets();
+            final Insets insets = mSpinner.getOpticalInsets();
             v.offsetLeftAndRight(-insets.left);
             if (getLayoutMode() != getParentLayoutMode()) {
                 v.offsetTopAndBottom(-insets.top);
