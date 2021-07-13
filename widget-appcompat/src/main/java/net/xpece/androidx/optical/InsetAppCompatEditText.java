@@ -5,14 +5,14 @@ import android.graphics.Insets;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 import androidx.appcompat.widget.AppCompatEditText;
 
-public class InsetAppCompatEditText extends AppCompatEditText {
+public class InsetAppCompatEditText extends AppCompatEditText implements OpticalInsetsView {
 
-    private OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
+    private final OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
 
     public InsetAppCompatEditText(final @NonNull Context context) {
         super(context);
@@ -25,7 +25,7 @@ public class InsetAppCompatEditText extends AppCompatEditText {
     }
 
     public InsetAppCompatEditText(final @NonNull Context context, final @Nullable AttributeSet attrs,
-            final int defStyleAttr) {
+                                  final @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOpticalHelper.onSetBackground(getBackground());
     }
@@ -38,17 +38,13 @@ public class InsetAppCompatEditText extends AppCompatEditText {
         super.setBackground(background);
     }
 
-    //@Override
+    @Override
     @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
         return mOpticalHelper.onGetOpticalInsets();
     }
 
-    //@Override
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @SuppressWarnings("unused")
+    @Override
     public void setOpticalInsets(@NonNull Insets insets) {
         mOpticalHelper.onSetOpticalInsets(insets);
     }

@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.Spinner;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 
-public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
+public class InsetSpinner extends Spinner implements OpticalInsetsView, SpinnerHelper.Delegate {
 
     private final OpticalInsetsHelper mOpticalHelper = new OpticalInsetsHelper(this);
     private final SpinnerHelper<InsetSpinner> mSpinnerHelper = new SpinnerHelper<>(this);
@@ -29,7 +29,7 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
     }
 
     public InsetSpinner(final @NonNull Context context, final @Nullable AttributeSet attrs,
-                        final int defStyleAttr) {
+                        final @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOpticalHelper.onSetBackground(getBackground());
         mSpinnerHelper.init(attrs, defStyleAttr);
@@ -45,15 +45,11 @@ public class InsetSpinner extends Spinner implements SpinnerHelper.Delegate {
 
     @Override
     @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @SuppressWarnings("unused")
     public Insets getOpticalInsets() {
         return mOpticalHelper.onGetOpticalInsets();
     }
 
-    //@Override
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @SuppressWarnings("unused")
+    @Override
     public void setOpticalInsets(@NonNull Insets insets) {
         mOpticalHelper.onSetOpticalInsets(insets);
     }

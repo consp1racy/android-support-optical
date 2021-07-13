@@ -17,6 +17,7 @@ dependencies {
 
     implementation(projects.insets)
     implementation(projects.insetsHelper)
+    implementation(projects.insetsExtensions)
 
     implementation("androidx.annotation:annotation:1.2.0")
 

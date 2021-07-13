@@ -9,11 +9,10 @@ import android.util.Log;
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 
 import com.google.android.material.card.MaterialCardView;
 
-public class InsetMaterialCardView extends MaterialCardView {
+public class InsetMaterialCardView extends MaterialCardView implements OpticalInsetsView {
 
     private Insets mOpticalInsets = null;
 
@@ -26,7 +25,7 @@ public class InsetMaterialCardView extends MaterialCardView {
     }
 
     public InsetMaterialCardView(@NonNull Context context, @Nullable AttributeSet attrs,
-            @AttrRes int defStyleAttr) {
+                                 @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,9 +41,8 @@ public class InsetMaterialCardView extends MaterialCardView {
         super.setMaxCardElevation(maxElevation);
     }
 
-    //@Override
+    @Override
     @NonNull
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     public Insets getOpticalInsets() {
         if (mOpticalInsets == null) {
             if (Build.VERSION.SDK_INT < 21 || getUseCompatPadding()) {
@@ -66,9 +64,8 @@ public class InsetMaterialCardView extends MaterialCardView {
         return mOpticalInsets;
     }
 
-    //@Override
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    @SuppressWarnings("unused")
+    @Deprecated
+    @Override
     public void setOpticalInsets(@NonNull Insets insets) {
         Log.w("InsetMaterialCardView", "Cannot set optical insets on this widget.");
     }
