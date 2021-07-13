@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
@@ -86,7 +87,11 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
 
         View v = mSpinner.getSelectedView();
         if (v == null) {
-            v = mSpinner.getAdapter().getView(mSpinner.getSelectedItemPosition(), null, mSpinner);
+            final SpinnerAdapter adapter = mSpinner.getAdapter();
+            final int index = mSpinner.getSelectedItemPosition();
+            if (adapter != null && index >= 0) {
+                v = adapter.getView(index, null, mSpinner);
+            }
         }
         if (v != null) {
             final Insets childInsets = getOpticalInsetsCompat(v);
