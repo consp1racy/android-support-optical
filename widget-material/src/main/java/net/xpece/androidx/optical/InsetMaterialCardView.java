@@ -2,7 +2,6 @@ package net.xpece.androidx.optical;
 
 import android.content.Context;
 import android.graphics.Insets;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -14,7 +13,7 @@ import com.google.android.material.card.MaterialCardView;
 
 public class InsetMaterialCardView extends MaterialCardView implements OpticalInsetsView {
 
-    private Insets mOpticalInsets = null;
+    private final CardViewHelper mCardViewHelper = new CardViewHelper(this);
 
     public InsetMaterialCardView(@NonNull Context context) {
         super(context);
@@ -31,37 +30,20 @@ public class InsetMaterialCardView extends MaterialCardView implements OpticalIn
 
     @Override
     public void setUseCompatPadding(boolean useCompatPadding) {
-        mOpticalInsets = null;
+        mCardViewHelper.onSetUseCompatPadding();
         super.setUseCompatPadding(useCompatPadding);
     }
 
     @Override
     public void setMaxCardElevation(float maxElevation) {
-        mOpticalInsets = null;
+        mCardViewHelper.onSetMaxCardElevation();
         super.setMaxCardElevation(maxElevation);
     }
 
     @Override
     @NonNull
     public Insets getOpticalInsets() {
-        if (mOpticalInsets == null) {
-            if (Build.VERSION.SDK_INT < 21 || getUseCompatPadding()) {
-                final float maxCardElevation = getMaxCardElevation();
-                if (maxCardElevation != 0) {
-                    mOpticalInsets = InsetsCompat.of(
-                            (int) maxCardElevation,
-                            (int) (maxCardElevation * 1.5f),
-                            (int) maxCardElevation,
-                            (int) (maxCardElevation * 1.5f)
-                    );
-                } else {
-                    mOpticalInsets = InsetsCompat.NONE;
-                }
-            } else {
-                mOpticalInsets = InsetsCompat.NONE;
-            }
-        }
-        return mOpticalInsets;
+        return mCardViewHelper.onGetOpticalInsets();
     }
 
     @Deprecated
