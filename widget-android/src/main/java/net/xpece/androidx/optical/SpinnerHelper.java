@@ -160,7 +160,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
 
     private void onLayoutInOpticalBoundsMode(boolean changed, int l, int t, int r, int b) {
         mSpinner.superOnLayout(changed, l, t, r, b);
-        final View v = mSpinner.getChildAt(0);
+        final View v = mSpinner.getSelectedView();
         if (v != null) {
             final Insets insets = mSpinner.getOpticalInsets();
             v.offsetLeftAndRight(-insets.left);
@@ -173,7 +173,7 @@ public final class SpinnerHelper<T extends Spinner & SpinnerHelper.Delegate> {
     private void onLayoutInClipBoundsMode(boolean changed, int l, int t, int r, int b) {
         mSpinner.superOnLayout(changed, l, t, r, b);
         if (getLayoutMode() != getParentLayoutMode()) {
-            final View v = mSpinner.getChildAt(0);
+            final View v = mSpinner.getSelectedView();
             if (v != null) {
                 final Insets insets = mSpinner.getOpticalInsets();
                 v.offsetTopAndBottom(insets.top);
