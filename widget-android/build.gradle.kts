@@ -13,7 +13,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.insets)
+    api(projects.insets)
+
     implementation(projects.insetsHelper)
     implementation(projects.insetsExtensions)
 

@@ -20,8 +20,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.insets)
-    implementation(projects.insetsExtensions)
+    api(projects.insets)
 
     implementation("androidx.annotation:annotation:1.2.0")
 

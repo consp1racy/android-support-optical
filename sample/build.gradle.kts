@@ -45,9 +45,7 @@ dependencies {
     implementation(projects.rootAndroidLayout)
 
     implementation(projects.insets)
-
     implementation(projects.insetsExtensions)
-
     implementation(projects.insetsHelper)
 
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")

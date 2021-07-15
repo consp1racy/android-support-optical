@@ -20,9 +20,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.insets)
     implementation(projects.insetsHelper)
-    implementation(projects.insetsExtensions)
 
     api(projects.widgetAppcompat)
     api(projects.widgetCardview)
