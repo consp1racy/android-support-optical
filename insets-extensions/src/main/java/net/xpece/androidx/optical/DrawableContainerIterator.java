@@ -3,6 +3,7 @@ package net.xpece.androidx.optical;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 
 @SuppressWarnings("JavaReflectionMemberAccess")
-@SuppressLint("DiscouragedPrivateApi")
+@SuppressLint({"DiscouragedPrivateApi", "LongLogTag"})
 final class DrawableContainerIterator implements Iterator<Drawable> {
 
     private static final Drawable[] EMPTY_ARRAY = new Drawable[0];
@@ -37,7 +38,7 @@ final class DrawableContainerIterator implements Iterator<Drawable> {
 
             reflectionResolved = true;
         } catch (Exception e) {
-            e.printStackTrace(); // TODO
+            Log.w("DrawableContainerIterator", e.toString());
         }
         FIELD_STATE = fieldState;
         FIELD_DRAWABLES = fieldDrawables;

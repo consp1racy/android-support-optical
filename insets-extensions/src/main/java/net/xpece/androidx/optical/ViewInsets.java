@@ -40,7 +40,6 @@ public final class ViewInsets {
         }
     }
 
-
     private ViewInsets() {
     }
 }

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,8 +55,8 @@ final class DrawableContainerInsets {
                 fieldCurIndex.setAccessible(true);
 
                 reflectionResolved = true;
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace(); // TODO
+            } catch (Exception e) {
+                Log.w("DrawableContainerInsets", e.toString());
             }
             FIELD_CUR_INDEX = fieldCurIndex;
             REFLECTION_RESOLVED = reflectionResolved;

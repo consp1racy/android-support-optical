@@ -1,6 +1,7 @@
 package net.xpece.androidx.optical;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.widget.AbsSpinner;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ final class AbsSpinnerReflection {
             heightMeasureSpec.setAccessible(true);
             reflectionResolved = true;
         } catch (NoSuchFieldException e) {
-            e.printStackTrace(); // TODO
+            Log.w("AbsSpinnerReflection", e.toString());
         }
         REFLECTION_RESOLVED = reflectionResolved;
         FIELD_WIDTH_MEASURE_SPEC = widthMeasureSpec;

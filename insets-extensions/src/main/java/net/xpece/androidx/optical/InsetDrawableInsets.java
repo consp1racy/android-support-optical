@@ -5,6 +5,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import android.annotation.SuppressLint;
 import android.graphics.Insets;
 import android.graphics.drawable.InsetDrawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,8 +71,8 @@ final class InsetDrawableInsets {
                 fieldInsetBottom.setAccessible(true);
 
                 reflectionResolved = true;
-            } catch (NoSuchFieldException | ClassNotFoundException e) {
-                e.printStackTrace(); // TODO
+            } catch (Exception e) {
+                Log.w("InsetDrawableInsets", e.toString());
             }
             REFLECTION_RESOLVED = reflectionResolved;
             FIELD_INSET_STATE = fieldInsetState;
@@ -79,9 +80,6 @@ final class InsetDrawableInsets {
             FIELD_INSET_TOP = fieldInsetTop;
             FIELD_INSET_RIGHT = fieldInsetRight;
             FIELD_INSET_BOTTOM = fieldInsetBottom;
-        }
-
-        private Api18() {
         }
 
         @NonNull

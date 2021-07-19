@@ -6,10 +6,10 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Insets;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -44,7 +44,7 @@ final class NinePatchDrawableInsets {
     }
 
     @SuppressWarnings({"rawtypes", "JavaReflectionMemberAccess"})
-    @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi", "PrivateApi"})
+    @SuppressLint({"SoonBlockedPrivateApi", "DiscouragedPrivateApi", "PrivateApi", "LongLogTag"})
     private static final class Api18 implements DrawableInsets.Delegate<NinePatchDrawable> {
 
         private static final boolean REFLECTION_RESOLVED;
@@ -81,8 +81,8 @@ final class NinePatchDrawableInsets {
                 fieldOpticalInsets.setAccessible(true);
 
                 reflectionResolved = true;
-            } catch (NoSuchFieldException | NoSuchMethodException | ClassNotFoundException e) {
-                e.printStackTrace(); // TODO
+            } catch (Exception e) {
+                Log.w("NinePatchDrawableInsets", e.toString());
             }
             REFLECTION_RESOLVED = reflectionResolved;
             FIELD_NINE_PATCH = fieldNinePatch;
@@ -136,9 +136,6 @@ final class NinePatchDrawableInsets {
             } catch (InvocationTargetException e) {
                 throw new RuntimeException(e.getTargetException());
             }
-        }
-
-        private Api18() {
         }
 
         @NonNull

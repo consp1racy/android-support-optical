@@ -45,7 +45,6 @@ public final class BitmapInsets {
         }
     }
 
-
     private BitmapInsets() {
     }
 }

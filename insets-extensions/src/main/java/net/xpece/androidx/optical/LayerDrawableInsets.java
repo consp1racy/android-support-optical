@@ -5,6 +5,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import android.annotation.SuppressLint;
 import android.graphics.Insets;
 import android.graphics.drawable.LayerDrawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,8 +96,8 @@ final class LayerDrawableInsets {
                 fieldInsetBottom.setAccessible(true);
 
                 reflectionResolved = true;
-            } catch (NoSuchFieldException | ClassNotFoundException e) {
-                e.printStackTrace(); // TODO
+            } catch (Exception e) {
+                Log.w("LayerDrawableInsets", e.toString());
             }
             REFLECTION_RESOLVED = reflectionResolved;
             FIELD_LAYER_STATE = fieldLayerState;
@@ -105,9 +106,6 @@ final class LayerDrawableInsets {
             FIELD_INSET_TOP = fieldInsetTop;
             FIELD_INSET_RIGHT = fieldInsetRight;
             FIELD_INSET_BOTTOM = fieldInsetBottom;
-        }
-
-        private Api18() {
         }
 
         @NonNull
@@ -145,9 +143,6 @@ final class LayerDrawableInsets {
 
     @RequiresApi(23)
     private static final class Api23 extends BaseDelegate {
-
-        private Api23() {
-        }
 
         @Override
         void getLayerOpticalInsets(@NonNull LayerDrawable d, @NonNull Insets[] out) {
